@@ -12,3 +12,12 @@ starts:
   - id: beu
     label: "BEU"
     path: "/beu/beu.static.yml"
+
+  - id: xyz
+    label: "XYZ"
+    path: "/xyz/xyz.static.yml"
+
+options:
+  auto_discover: true
+  show_all: true
+  sort: alphabetical
