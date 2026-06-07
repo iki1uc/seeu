@@ -3,3 +3,6 @@ id: x9r
 label: "X9R"
 active: true
 claim: "Neuer Start"
+scope:
+  - custom
+  - respo
