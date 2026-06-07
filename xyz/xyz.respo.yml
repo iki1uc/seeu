@@ -1,1 +1,8 @@
+version: 1
 
+respo:
+  id: xyz
+  mode: "respo"
+  claim: "XYZ ist ein sichtbarer und nutzbarer Start-Respo"
+  visible: true
+  usable: true
