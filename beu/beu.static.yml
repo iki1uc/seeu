@@ -1,1 +1,6 @@
+version: 1
+id: beu
+label: "BEU"
+active: true
+claim: "Vollsystem"
 
