@@ -1,1 +1,11 @@
+version: 1
+
+info:
+  id: xyz
+  name: "XYZ Startkörper"
+  purpose:
+    - "Erweiterung des SEEÜ-Startsystems"
+    - "Eigenständiger Raum mit eigener Bedeutung"
+    - "Kann weitere Respos aufnehmen"
+  status: ready
 
