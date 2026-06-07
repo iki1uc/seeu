@@ -3,4 +3,7 @@ id: start8
 label: "START8"
 active: true
 claim: "Standard-Start"
-
+scope:
+  - base
+  - system
+  - respo
