@@ -1,1 +1,10 @@
+version: 1
+id: xyz
+label: "XYZ"
+active: true
+claim: "Neuer Startkörper im SEEÜ-System"
 
+scope:
+  - respo
+  - system
+  - custom
