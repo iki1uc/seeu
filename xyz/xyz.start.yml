@@ -1,1 +1,10 @@
 
+version: 1
+
+start:
+  id: xyz
+  label: "XYZ START"
+  type: custom
+  visible: true
+  usable: true
+  description: "Eigenständiger Startpunkt im SEEÜ-System"
