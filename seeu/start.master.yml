@@ -1,1 +1,20 @@
+version: 1
 
+master_start:
+  entry: "/index.html"
+  mode: "respo"
+  allow:
+    - starts
+    - actions
+    - services
+    - respo
+    - view
+
+expose:
+  all_starts: true
+  all_actions: true
+  all_services: true
+
+security:
+  sandbox: off
+  restrictions: none
