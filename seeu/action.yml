@@ -1,1 +1,55 @@
+version: 1
+
+actions:
+
+  # 1) RESPO STARTEN
+  - id: respo_start
+    label: "RESPO START"
+    type: start
+    target: respo
+    deliver:
+      mode: "respo"
+      visible: true
+      usable: true
+    claim: "Startet den Respo-Dienst für alle"
+
+  # 2) START-DIENSTE FREISCHALTEN
+  - id: start_services
+    label: "START-DIENSTE"
+    type: service
+    target: seeu
+    deliver:
+      services: all
+      allow: true
+    claim: "Schaltet alle Startdienste frei"
+
+  # 3) STARTKÖRPER AKTIVIEREN (start8 / 6iy / beu / xyz)
+  - id: start_body
+    label: "STARTKÖRPER AKTIVIEREN"
+    type: activate
+    target: starts
+    deliver:
+      all_starts: true
+      visible: true
+      usable: true
+    claim: "Aktiviert alle Startkörper im SEEÜ-System"
+
+  # 4) ACTIONS SICHTBAR MACHEN
+  - id: expose_actions
+    label: "ACTIONS SICHTBAR"
+    type: expose
+    target: actions
+    deliver:
+      show_all: true
+    claim: "Macht alle Actions sichtbar"
+
+  # 5) MASTER-START AUSFÜHREN (index.html)
+  - id: master_start
+    label: "MASTER START"
+    type: entry
+    target: "/index.html"
+    deliver:
+      entry: "/index.html"
+      mode: "respo"
+    claim: "Startet das gesamte SEEÜ über index.html"
 
