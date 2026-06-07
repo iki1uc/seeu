@@ -3,4 +3,7 @@ id: 6iy
 label: "6IY"
 active: true
 claim: "Direktmodus"
-
+scope:
+  - fast
+  - direct
+  - respo
