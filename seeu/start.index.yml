@@ -1,1 +1,18 @@
+version: 1
+
+seeu:
+  mode: respo
+  auto_discover: true
+  start_paths:
+    - "/start8/"
+    - "/6iy/"
+    - "/beu/"
+
+naming:
+  pattern: "{id}.static.yml"
+  id_source: foldername
+
+visibility:
+  show_all: true
+  sort: alphabetical
 
