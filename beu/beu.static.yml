@@ -3,4 +3,7 @@ id: beu
 label: "BEU"
 active: true
 claim: "Vollsystem"
-
+scope:
+  - full
+  - extended
+  - respo
