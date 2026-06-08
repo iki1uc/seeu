@@ -1,27 +1,7 @@
-name: Deploy SEEÜ
+respo: "Q1"
+id_op: "Q1"
+base: 1
 
-on:
-  push:
-    branches: ["main"]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Upload SEEÜ artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: "."
-
-      - name: Deploy SEEÜ to GitHub Pages
-        uses: actions/deploy-pages@v5
+line: "L(n)=3n"
+instance: "I(n)=base+3n"
+axis: "A(n)=floor(n/3)+1"
