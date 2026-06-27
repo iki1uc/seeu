@@ -1,1 +1,28 @@
+<script>
+class PEIN {
+    constructor(square, points, repos){
+        this.square = square;
+        this.points = points;
+        this.repos  = repos;
+    }
+
+    run(){
+        if(this.square){
+            return {
+                mode: "SQUARE_CAPTURE",
+                block: { square: this.square, points: this.points }
+            };
+        }
+
+        return {
+            mode: "ZERO_EDIT",
+            repos: this.repos.map(r => ({
+                repo: r,
+                zero: {x:0, y:0},
+                edit: true
+            }))
+        };
+    }
+}
+</script>
 
