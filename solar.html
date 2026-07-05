@@ -1,1 +1,38 @@
+<div class="eclipse solar">
+  <div class="sun"></div>
+  <div class="moon"></div>
+</div>
+
+<style>
+.eclipse {
+  position:relative;
+  width:200px;
+  height:200px;
+  margin:auto;
+}
+
+.sun {
+  width:200px;
+  height:200px;
+  background:#ffaa00;
+  border-radius:50%;
+}
+
+.moon {
+  width:160px;
+  height:160px;
+  background:#000;
+  border-radius:50%;
+  position:absolute;
+  top:20px;
+  left:-160px;
+  animation:moveMoonSolar 6s infinite linear;
+}
+
+@keyframes moveMoonSolar {
+  0%   { left:-160px; }
+  50%  { left:20px; }
+  100% { left:260px; }
+}
+</style>
 
