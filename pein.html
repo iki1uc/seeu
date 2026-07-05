@@ -1,3 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>pein.html – PEIN Engine</title>
+<style>
+  body { background:#000; color:#0f0; font-family:monospace; }
+  .log { white-space:pre; padding:10px; }
+</style>
+</head>
+<body>
+<div class="log" id="log"></div>
+
 <script>
 class PEIN {
     constructor(square, points, repos){
@@ -24,5 +37,15 @@ class PEIN {
         };
     }
 }
-</script>
 
+const engine = new PEIN(
+    {x:1,y:1,w:2,h:2},
+    [{id:1},{id:2},{id:3}],
+    ["R1","R2","R3","R4"]
+);
+
+document.getElementById("log").textContent =
+  JSON.stringify(engine.run(), null, 2);
+</script>
+</body>
+</html>
