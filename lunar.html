@@ -1,1 +1,38 @@
+<div class="eclipse lunar">
+  <div class="earth"></div>
+  <div class="moon"></div>
+</div>
+
+<style>
+.eclipse {
+  position:relative;
+  width:200px;
+  height:200px;
+  margin:auto;
+}
+
+.earth {
+  width:200px;
+  height:200px;
+  background:#0033ff;
+  border-radius:50%;
+}
+
+.moon {
+  width:140px;
+  height:140px;
+  background:#ccc;
+  border-radius:50%;
+  position:absolute;
+  top:30px;
+  left:260px;
+  animation:moveMoonLunar 6s infinite linear;
+}
+
+@keyframes moveMoonLunar {
+  0%   { left:260px; background:#ccc; }
+  50%  { left:30px;  background:#aa0000; }
+  100% { left:-160px; background:#ccc; }
+}
+</style>
 
