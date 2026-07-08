@@ -1,87 +1,118 @@
-<html>
+<!DOCTYPE html>
+<html lang="de">
 <head>
-<title>SEEÜ – STARTSYSTEM (((NEU)))</title>
+<meta charset="UTF-8">
+<title>SEEÜ – 6D ENGINE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body { font-family: monospace; background:#111; color:#eee; padding:20px; }
+body { background:#000; color:#0f0; font-family:monospace; }
 h1, h2 { color:#6cf; }
-.block { margin:20px 0; padding:10px; border:1px solid #444; }
+#core { margin:20px 0; padding:10px; border:1px solid #333; }
+canvas { background:#111; display:block; margin:20px auto; }
+pre { background:#000; padding:10px; border:1px solid #333; }
 button { padding:8px 14px; background:#333; color:#eee; border:1px solid #666; cursor:pointer; }
 button:hover { background:#444; }
-pre { background:#000; padding:10px; border:1px solid #333; }
 </style>
-
-<script>
-// =========================
-// SEEÜ – MASTER PANEL
-// =========================
-
-function seeuRun() {
-    let f = document.getElementById("seeuInput").value;
-
-    document.getElementById("sA").innerText = station(f, "A", "9hoch9 – Formuleria");
-    document.getElementById("sB").innerText = station(f, "B", "81_81_1 – Toolomat DOM");
-    document.getElementById("sC").innerText = station(f, "C", "viPIio – PIPE");
-    document.getElementById("sD").innerText = station(f, "D", "WpiR – Argumenteria / RESPO");
-}
-
-function station(f, id, name) {
-
-    let pos = (f.length + id.charCodeAt(0)) % 12;
-    let mass = f.length * id.charCodeAt(0);
-    let scan = f.length + " Zeichen";
-
-    let konsequenz = "";
-
-    if (f.includes("Φ")) konsequenz += "Achse IKI erkannt\n";
-    if (f.includes("φ∞")) konsequenz += "Achse MA³ erkannt\n";
-    if (f.includes("φ²")) konsequenz += "Achse UC erkannt\n";
-    if (f.includes("φ")) konsequenz += "Achse BIR erkannt\n";
-
-    if (f.includes("P4")) konsequenz += "RUN: Start\n";
-    if (f.includes("P0")) konsequenz += "RUN: Wake\n";
-    if (f.includes("P1")) konsequenz += "RUN: Melt\n";
-    if (f.includes("P2")) konsequenz += "RUN: Merge\n";
-    if (f.includes("Pe")) konsequenz += "RUN: End\n";
-
-    return (
-        name + "\n" +
-        "POS = (" + pos + ", φ)\n" +
-        "MASS = " + mass + "\n" +
-        "SCAN = " + scan + "\n" +
-        "Konsequenz:\n" + (konsequenz || "Keine erkannt.")
-    );
-}
-</script>
-
 </head>
 
 <body>
 
-<h1>SEEÜ – STARTSYSTEM (((NEU)))</h1>
+<h1>SEEÜ – 6D ENGINE</h1>
 
-<input id="seeuInput" type="text" placeholder="Φ + φ² + P4 + Orbit">
-<button onclick="seeuRun()">SEEÜ starten</button>
-
-<div class="block">
-<h2>Station A – Formuleria (9hoch9)</h2>
-<pre id="sA">Wartet…</pre>
+<div id="core">
+  <p>SEEÜ verarbeitet Eingaben in 6 Dimensionen:</p>
+  <ul>
+    <li>X – Raum</li>
+    <li>Y – Raum</li>
+    <li>Z – Raum</li>
+    <li>Orbit – φ‑Ebene</li>
+    <li>Operator – AX/XA</li>
+    <li>RUN – P4–Pe</li>
+  </ul>
 </div>
 
-<div class="block">
-<h2>Station B – Toolomat DOM (81_81_1)</h2>
-<pre id="sB">Wartet…</pre>
-</div>
+<input id="input6d" type="text" placeholder="Φ + φ² + AX + P4">
+<button onclick="run6D()">SEEÜ 6D starten</button>
 
-<div class="block">
-<h2>Station C – PIPE (viPIio)</h2>
-<pre id="sC">Wartet…</pre>
-</div>
+<h2>6D‑Interpretation</h2>
+<pre id="out6d">Noch keine Eingabe.</pre>
 
-<div class="block">
-<h2>Station D – Argumenteria / RESPO (WpiR)</h2>
-<pre id="sD">Wartet…</pre>
-</div>
+<h2>6D‑Visual</h2>
+<canvas id="seeuCanvas" width="400" height="400"></canvas>
+
+<script>
+// =========================
+// SEEÜ – 6D ENGINE
+// =========================
+
+function run6D() {
+    let f = document.getElementById("input6d").value;
+
+    document.getElementById("out6d").innerText = interpret6D(f);
+    draw6D(f);
+}
+
+// =========================
+// 6D LOGIK
+// =========================
+
+function interpret6D(f) {
+    let out = "";
+
+    // 3D Raum
+    out += "3D Raum:\n";
+    out += "X = " + (f.length % 7) + "\n";
+    out += "Y = " + (f.length % 11) + "\n";
+    out += "Z = " + (f.length % 13) + "\n\n";
+
+    // Orbit
+    if (f.includes("Φ")) out += "Orbit: IKI (Φ)\n";
+    if (f.includes("φ∞")) out += "Orbit: MA³ (φ∞)\n";
+    if (f.includes("φ²")) out += "Orbit: UC (φ²)\n";
+    if (f.includes("φ")) out += "Orbit: BIR (φ)\n";
+
+    out += "\n";
+
+    // Operator
+    if (f.includes("AX")) out += "Operator: AX (Vorwärts)\n";
+    if (f.includes("XA")) out += "Operator: XA (Rückwärts)\n";
+
+    out += "\n";
+
+    // RUN
+    if (f.includes("P4")) out += "RUN: Start\n";
+    if (f.includes("P0")) out += "RUN: Wake\n";
+    if (f.includes("P1")) out += "RUN: Melt\n";
+    if (f.includes("P2")) out += "RUN: Merge\n";
+    if (f.includes("Pe")) out += "RUN: End\n";
+
+    return out || "Keine 6D‑Daten erkannt.";
+}
+
+// =========================
+// 6D VISUALISIERUNG
+// =========================
+
+function draw6D(f) {
+    const c = document.getElementById("seeuCanvas");
+    const ctx = c.getContext("2d");
+
+    ctx.clearRect(0,0,400,400);
+
+    let x = (f.length % 7) * 40 + 20;
+    let y = (f.length % 11) * 30 + 20;
+    let z = (f.length % 13) * 20;
+
+    ctx.fillStyle = "#0f0";
+    ctx.beginPath();
+    ctx.arc(x, y, 20 + z/5, 0, Math.PI*2);
+    ctx.fill();
+
+    ctx.strokeStyle = "#6cf";
+    ctx.strokeRect(50, 50, 300, 300);
+}
+</script>
 
 </body>
 </html>
