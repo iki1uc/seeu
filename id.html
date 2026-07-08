@@ -2,36 +2,111 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>ID – SEEÜ / TECHα / CODE</title>
+  <title>ID – SEEÜ / LUNAR‑SOLAR‑CORE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- ID = Inhalt, nicht Person, nicht Ursprung -->
-  <meta name="id-type" content="code">
-  <meta name="id-role" content="content-marker">
-  <meta name="id-scope" content="seeu">
+  <!-- Neue ID: LUNAR‑SOLAR‑CORE -->
+  <meta name="id-type" content="core-operator">
+  <meta name="id-role" content="seeu-panel">
+  <meta name="id-scope" content="lunar-solar">
 </head>
-<body>
+
+<body style="background:#000; color:#0f0; font-family:monospace;">
+
   <main>
-    <!-- Kern: ID beschreibt den Inhalt -->
     <section id="id-core">
-      <h1>ID / SEEU</h1>
-      <p>Diese Instanz beschreibt den Inhalt, nicht die Quelle.</p>
-      <p>Modus: SEEÜ (kein Person‑Ursprung, nur Code‑Inhalt).</p>
+      <h1>ID / SEEÜ – LUNAR‑SOLAR‑CORE</h1>
+      <p>Diese ID beschreibt die neue SEEÜ‑Instanz.</p>
+      <p>Modus: Lunar (Schatten) + Solar (Licht) + Core (Operator).</p>
     </section>
 
-    <!-- TECHα nur als Sonderfall / Rotationspunkt -->
-    <section id="tech-alpha">
-      <h2>TECHα (Sonderfall)</h2>
-      <p>TECHα wird nur genutzt, wenn ein neutraler Rotationspunkt nötig ist.</p>
-      <p>Standard: ID = Code‑Inhalt, nicht TECH‑Ursprung.</p>
+    <section id="visual">
+      <h2>Lunar / Solar – Visual</h2>
+
+      <div class="eclipse lunar">
+        <div class="earth"></div>
+        <div class="moon"></div>
+      </div>
+
+      <div class="eclipse solar">
+        <div class="sun"></div>
+        <div class="moon"></div>
+      </div>
     </section>
 
-    <!-- CODE‑Layer -->
-    <section id="code-layer">
-      <h2>Code‑Inhalt</h2>
-      <p>ID markiert diesen Code‑Layer als Inhalt, nicht als Identität.</p>
+    <section id="stations">
+      <h2>SEEÜ – 4‑Station‑Panel</h2>
+      <p>Alle vier Stationen können Master/Slave‑Modus aktivieren.</p>
+
+      <ul>
+        <li>Station A – Formuleria</li>
+        <li>Station B – Toolomat DOM</li>
+        <li>Station C – PIPE</li>
+        <li>Station D – Argumenteria / RESPO</li>
+      </ul>
     </section>
+
+    <section id="bios">
+      <h2>BIOS‑3D‑Menü</h2>
+      <p>AX / XA / Q1–Q4 / AU→RA / RA→AU / P4–Pe</p>
+    </section>
+
+    <section id="edit">
+      <h2>Edit‑Fenster</h2>
+      <p>Alle Stationen werden im Übergang gleichzeitig angezeigt.</p>
+    </section>
+
   </main>
+
+<style>
+.eclipse {
+  position:relative;
+  width:200px;
+  height:200px;
+  margin:40px auto;
+}
+
+.earth, .sun {
+  width:200px;
+  height:200px;
+  border-radius:50%;
+}
+
+.earth { background:#0033ff; }
+.sun   { background:#ffaa00; }
+
+.moon {
+  width:140px;
+  height:140px;
+  background:#ccc;
+  border-radius:50%;
+  position:absolute;
+  top:30px;
+  left:260px;
+  animation:moveMoonLunar 6s infinite linear;
+}
+
+@keyframes moveMoonLunar {
+  0%   { left:260px; background:#ccc; }
+  50%  { left:30px;  background:#aa0000; }
+  100% { left:-160px; background:#ccc; }
+}
+
+.eclipse.solar .moon {
+  width:160px;
+  height:160px;
+  background:#000;
+  top:20px;
+  left:-160px;
+  animation:moveMoonSolar 6s infinite linear;
+}
+
+@keyframes moveMoonSolar {
+  0%   { left:-160px; }
+  50%  { left:20px; }
+  100% { left:260px; }
+}
+</style>
+
 </body>
 </html>
-
