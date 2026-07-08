@@ -1,112 +1,87 @@
-<!DOCTYPE html>
-<html lang="de">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>SEEÜ – BEAUTY INDEX</title>
+<title>SEEÜ – STARTSYSTEM (((NEU)))</title>
 
 <style>
-  body {
-    background:#000;
-    color:#0f0;
-    font-family:monospace;
-    padding:40px;
-    text-align:center;
-  }
-
-  h1 {
-    color:#0f0;
-    font-size:28px;
-    margin-bottom:30px;
-    animation:glow 2s infinite alternate;
-  }
-
-  @keyframes glow {
-    from { text-shadow:0 0 5px #0f0; }
-    to   { text-shadow:0 0 20px #0f0; }
-  }
-
-  button {
-    background:#000;
-    color:#0f0;
-    border:1px solid #0f0;
-    padding:12px 25px;
-    margin:10px;
-    font-size:18px;
-    cursor:pointer;
-    transition:0.3s;
-  }
-
-  button:hover {
-    background:#0f0;
-    color:#000;
-  }
-
-  #log {
-    margin-top:40px;
-    white-space:pre;
-    font-size:16px;
-    border:1px solid #0f0;
-    padding:20px;
-    width:80%;
-    margin-left:auto;
-    margin-right:auto;
-    min-height:120px;
-  }
+body { font-family: monospace; background:#111; color:#eee; padding:20px; }
+h1, h2 { color:#6cf; }
+.block { margin:20px 0; padding:10px; border:1px solid #444; }
+button { padding:8px 14px; background:#333; color:#eee; border:1px solid #666; cursor:pointer; }
+button:hover { background:#444; }
+pre { background:#000; padding:10px; border:1px solid #333; }
 </style>
+
+<script>
+// =========================
+// SEEÜ – MASTER PANEL
+// =========================
+
+function seeuRun() {
+    let f = document.getElementById("seeuInput").value;
+
+    document.getElementById("sA").innerText = station(f, "A", "9hoch9 – Formuleria");
+    document.getElementById("sB").innerText = station(f, "B", "81_81_1 – Toolomat DOM");
+    document.getElementById("sC").innerText = station(f, "C", "viPIio – PIPE");
+    document.getElementById("sD").innerText = station(f, "D", "WpiR – Argumenteria / RESPO");
+}
+
+function station(f, id, name) {
+
+    let pos = (f.length + id.charCodeAt(0)) % 12;
+    let mass = f.length * id.charCodeAt(0);
+    let scan = f.length + " Zeichen";
+
+    let konsequenz = "";
+
+    if (f.includes("Φ")) konsequenz += "Achse IKI erkannt\n";
+    if (f.includes("φ∞")) konsequenz += "Achse MA³ erkannt\n";
+    if (f.includes("φ²")) konsequenz += "Achse UC erkannt\n";
+    if (f.includes("φ")) konsequenz += "Achse BIR erkannt\n";
+
+    if (f.includes("P4")) konsequenz += "RUN: Start\n";
+    if (f.includes("P0")) konsequenz += "RUN: Wake\n";
+    if (f.includes("P1")) konsequenz += "RUN: Melt\n";
+    if (f.includes("P2")) konsequenz += "RUN: Merge\n";
+    if (f.includes("Pe")) konsequenz += "RUN: End\n";
+
+    return (
+        name + "\n" +
+        "POS = (" + pos + ", φ)\n" +
+        "MASS = " + mass + "\n" +
+        "SCAN = " + scan + "\n" +
+        "Konsequenz:\n" + (konsequenz || "Keine erkannt.")
+    );
+}
+</script>
+
 </head>
 
 <body>
 
-<h1>SEEÜ – RESPO PLAYER</h1>
+<h1>SEEÜ – STARTSYSTEM (((NEU)))</h1>
 
-<button id="btnAll">ALL</button>
-<button id="btnIn">IN →</button>
-<button id="btnOut">← OUT</button>
-<button id="btnSet">SET</button>
+<input id="seeuInput" type="text" placeholder="Φ + φ² + P4 + Orbit">
+<button onclick="seeuRun()">SEEÜ starten</button>
 
-<div id="log">SEEÜ bereit…</div>
+<div class="block">
+<h2>Station A – Formuleria (9hoch9)</h2>
+<pre id="sA">Wartet…</pre>
+</div>
 
-<script>
-// RESPO PLAYER ENGINE
-class SEEUE_PLAYER {
-    constructor(respos){
-        this.respos = respos;
-        this.index  = 0;
-    }
+<div class="block">
+<h2>Station B – Toolomat DOM (81_81_1)</h2>
+<pre id="sB">Wartet…</pre>
+</div>
 
-    current(){
-        return this.respos[this.index];
-    }
+<div class="block">
+<h2>Station C – PIPE (viPIio)</h2>
+<pre id="sC">Wartet…</pre>
+</div>
 
-    next(){
-        this.index = (this.index + 1) % this.respos.length;
-        return this.current();
-    }
-
-    prev(){
-        this.index = (this.index - 1 + this.respos.length) % this.respos.length;
-        return this.current();
-    }
-}
-
-// BESTE RESPOS
-const player = new SEEUE_PLAYER([
-  "ALL","IN","OUT","SET",
-  "RUN","CORE","NEXT","RAW",
-  "DELTA","ECHO","ZERO","BEAM"
-]);
-
-function showRespo(mode){
-    document.getElementById("log").textContent =
-      "SEEÜ RESPO:\n" + mode;
-}
-
-// BUTTONS
-document.getElementById("btnAll").onclick = () => showRespo(player.current());
-document.getElementById("btnIn").onclick  = () => showRespo(player.next());
-document.getElementById("btnOut").onclick = () => showRespo(player.prev());
-document.getElementById("btnSet").onclick = () => showRespo("SET");
-</script>
+<div class="block">
+<h2>Station D – Argumenteria / RESPO (WpiR)</h2>
+<pre id="sD">Wartet…</pre>
+</div>
 
 </body>
 </html>
