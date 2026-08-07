@@ -1,4 +1,4 @@
-// 1. AXIOM-PRÜFER (synchron!)
+// --- 1. AXIOM-PRÜFER (synchron)
 function ghostScan(r){
   if(r.MISS){
     return {
@@ -34,7 +34,7 @@ function ghostScan(r){
 }
 
 
-// 2. BIL-MAUS (asynchron, getrennt!)
+// --- 2. BIL-MAUS (asynchron)
 async function BIL_MAUS_START() {
   try {
     const r = await fetch("./BIL/RAUM.json");
@@ -43,7 +43,6 @@ async function BIL_MAUS_START() {
     const out = ghostScan(data);
 
     window.BIL_RAUM   = out.RAUM;
-    window.BIL_STATUS = out.STATUS;
     window.BIL_SCORE  = out.SCORE;
     window.BIL_WETTE  = out.WETTE;
     window.BIL_RESULT = out.RESULT;
@@ -55,5 +54,5 @@ async function BIL_MAUS_START() {
   }
 }
 
-// Starten
+// --- 3. Starten
 BIL_MAUS_START();
