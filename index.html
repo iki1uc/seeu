@@ -1,39 +1,59 @@
-function genLAGE() {
-  return ["A","B","C","D"][Math.floor(Math.random()*4)];
+// 1. AXIOM-PRÜFER (synchron!)
+function ghostScan(r){
+  if(r.MISS){
+    return {
+      NAME: r.NAME,
+      RESULT: "FEHLT",
+      ERROR: true,
+      RAUM: "(keine Daten)"
+    };
+  }
+
+  const WETTE = r.IST_IST !== r.SOLL;
+
+  const SCORE =
+      (r.STATUS === "1" ? 1 : 0) +
+      (r.VERWALTUNG3.SET.UP ? 1 : 0) +
+      (r.VERWALTUNG3.IO.IN ? 1 : 0) +
+      (r.VERWALTUNG3.EXE.RUN ? 1 : 0) +
+      (r.WAHRHEIT === "REAL" ? 1 : 0) +
+      (r.RAUM.X + r.RAUM.Z);
+
+  return {
+    NAME: r.NAME,
+    ID: r.ID,
+    RAUM: r.RAUM,
+    STATUS: r.STATUS,
+    RESULT: WETTE ? "HELFEN" : "OK",
+    SCORE,
+    WETTE,
+    OUT: r.VERWALTUNG3,
+    WAHRHEIT: r.WAHRHEIT,
+    EDIT: r.IST_IST
+  };
 }
 
-function genKONTEXT() {
-  return ["TEST","LIVE","PROD"][Math.floor(Math.random() * 3)];
+
+// 2. BIL-MAUS (asynchron, getrennt!)
+async function BIL_MAUS_START() {
+  try {
+    const r = await fetch("./BIL/RAUM.json");
+    const data = await r.json();
+
+    const out = ghostScan(data);
+
+    window.BIL_RAUM   = out.RAUM;
+    window.BIL_STATUS = out.STATUS;
+    window.BIL_SCORE  = out.SCORE;
+    window.BIL_WETTE  = out.WETTE;
+    window.BIL_RESULT = out.RESULT;
+
+    console.log("BIL-MAUS AKTIV:", window.BIL_RAUM);
+
+  } catch(e) {
+    console.error("BIL-MAUS FEHLER:", e);
+  }
 }
 
-function genPOSITION() {
-  return Math.floor(Math.random()*12)+1;
-}
-
-function genZUSTAND() {
-  return [0,1][Math.floor(Math.random()*2)];
-}
-
-function JB_AUTO() {
-  const L = genLAGE();
-  const K = genKONTEXT();
-  const P = genPOSITION();
-  const Z = genZUSTAND();
-
-  document.getElementById("auto_lage").innerText = "LAGE: " + L;
-  document.getElementById("auto_kontext").innerText = "KONTEXT: " + K;
-  document.getElementById("auto_position").innerText = "POSITION: " + P;
-  document.getElementById("auto_zustand").innerText = "ZUSTAND: " + Z;
-
-  const J = (!L || !K || !P || !Z);
-  const B = !J;
-  const E = "^";
-
-  document.getElementById("auto_jb").innerText =
-    "(J)" + E + "(B) = " + (B ? "OK" : "FEHLT");
-
-  TOOL_SCORE(B ? 5 : -3);
-  TOOL_SLIDE(P);
-
-  return { L, K, P, Z };
-}
+// Starten
+BIL_MAUS_START();
