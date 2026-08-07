@@ -2,117 +2,128 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>SEEÜ – 6D ENGINE</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALLXALL – SEEÜ OS</title>
 
 <style>
-body { background:#000; color:#0f0; font-family:monospace; }
-h1, h2 { color:#6cf; }
-#core { margin:20px 0; padding:10px; border:1px solid #333; }
-canvas { background:#111; display:block; margin:20px auto; }
-pre { background:#000; padding:10px; border:1px solid #333; }
-button { padding:8px 14px; background:#333; color:#eee; border:1px solid #666; cursor:pointer; }
-button:hover { background:#444; }
+  body { background:#000; color:#0ff; font-family:monospace; padding:20px; }
+  .box { border:1px solid #0ff; padding:20px; width:360px; margin-bottom:20px; }
+  h2 { margin-top:0; color:#6cf; }
+  hr { border:0; border-top:1px solid #0ff; margin:15px 0; }
 </style>
 </head>
 
 <body>
 
-<h1>SEEÜ – 6D ENGINE</h1>
+<h2>ALLXALL – SEEÜ OS</h2>
 
-<div id="core">
-  <p>SEEÜ verarbeitet Eingaben in 6 Dimensionen:</p>
-  <ul>
-    <li>X – Raum</li>
-    <li>Y – Raum</li>
-    <li>Z – Raum</li>
-    <li>Orbit – φ‑Ebene</li>
-    <li>Operator – AX/XA</li>
-    <li>RUN – P4–Pe</li>
-  </ul>
+<!-- NODE -->
+<div class="box">
+  <h3>NODE</h3>
+  <div id="node_out">Lade Node…</div>
 </div>
 
-<input id="input6d" type="text" placeholder="Φ + φ² + AX + P4">
-<button onclick="run6D()">SEEÜ 6D starten</button>
+<!-- SCORE -->
+<div class="box">
+  <h3>SCORE</h3>
+  <div id="score_out">0</div>
+</div>
 
-<h2>6D‑Interpretation</h2>
-<pre id="out6d">Noch keine Eingabe.</pre>
+<!-- WETTE -->
+<div class="box">
+  <h3>WETTE</h3>
+  <div id="wette_out">Keine Wette.</div>
+</div>
 
-<h2>6D‑Visual</h2>
-<canvas id="seeuCanvas" width="400" height="400"></canvas>
+<!-- SLIDE -->
+<div class="box">
+  <h3>SLIDE</h3>
+  <div id="slide_out">Slide: 0%</div>
+</div>
 
-<script>
-// =========================
-// SEEÜ – 6D ENGINE
-// =========================
+<!-- AUTO -->
+<div class="box">
+  <h3>AUTO</h3>
+  <div id="auto_lage"></div>
+  <div id="auto_kontext"></div>
+  <div id="auto_position"></div>
+  <div id="auto_zustand"></div>
+  <hr>
+  <div id="auto_jb"></div>
+</div>
 
-function run6D() {
-    let f = document.getElementById("input6d").value;
+<!-- CHECK -->
+<div class="box">
+  <h3>CHECK</h3>
+  <div id="check_status"></div>
+  <div id="check_raw"></div>
+  <div id="check_jb"></div>
+</div>
 
-    document.getElementById("out6d").innerText = interpret6D(f);
-    draw6D(f);
+<!-- RAW -->
+<div class="box">
+  <h3>RAW</h3>
+  <div id="raw_out"></div>
+</div>
+
+<!-- OS -->
+<div class="box">
+  <h3>OS</h3>
+  <div id="os_out"></div>
+</div>
+
+<script type="module">
+
+// ===============================
+// 1) ALLXALL / ArumA.js laden
+// ===============================
+import * as ALLXALL from "./ArumA.js";
+
+// ===============================
+// 2) SEEÜ RESPO MODE
+// ===============================
+function SEEu_RESPO(fn){
+  try {
+    const out = fn();
+    TOOLATOR.respo = "OK";
+    return out;
+  } catch(e){
+    TOOLATOR.respo = "FEHLER: " + e.message;
+    return null;
+  }
 }
 
-// =========================
-// 6D LOGIK
-// =========================
+// ===============================
+// 3) Toolatoren
+// ===============================
+const TOOLATOR = {
+  score: 0,
+  wette: null,
+  slide: 0,
+  respo: "OK",
+  node: "start8"
+};
 
-function interpret6D(f) {
-    let out = "";
-
-    // 3D Raum
-    out += "3D Raum:\n";
-    out += "X = " + (f.length % 7) + "\n";
-    out += "Y = " + (f.length % 11) + "\n";
-    out += "Z = " + (f.length % 13) + "\n\n";
-
-    // Orbit
-    if (f.includes("Φ")) out += "Orbit: IKI (Φ)\n";
-    if (f.includes("φ∞")) out += "Orbit: MA³ (φ∞)\n";
-    if (f.includes("φ²")) out += "Orbit: UC (φ²)\n";
-    if (f.includes("φ")) out += "Orbit: BIR (φ)\n";
-
-    out += "\n";
-
-    // Operator
-    if (f.includes("AX")) out += "Operator: AX (Vorwärts)\n";
-    if (f.includes("XA")) out += "Operator: XA (Rückwärts)\n";
-
-    out += "\n";
-
-    // RUN
-    if (f.includes("P4")) out += "RUN: Start\n";
-    if (f.includes("P0")) out += "RUN: Wake\n";
-    if (f.includes("P1")) out += "RUN: Melt\n";
-    if (f.includes("P2")) out += "RUN: Merge\n";
-    if (f.includes("Pe")) out += "RUN: End\n";
-
-    return out || "Keine 6D‑Daten erkannt.";
+function TOOL_SCORE(add){
+  TOOLATOR.score += add;
+  document.getElementById("score_out").innerText = TOOLATOR.score;
 }
 
-// =========================
-// 6D VISUALISIERUNG
-// =========================
-
-function draw6D(f) {
-    const c = document.getElementById("seeuCanvas");
-    const ctx = c.getContext("2d");
-
-    ctx.clearRect(0,0,400,400);
-
-    let x = (f.length % 7) * 40 + 20;
-    let y = (f.length % 11) * 30 + 20;
-    let z = (f.length % 13) * 20;
-
-    ctx.fillStyle = "#0f0";
-    ctx.beginPath();
-    ctx.arc(x, y, 20 + z/5, 0, Math.PI*2);
-    ctx.fill();
-
-    ctx.strokeStyle = "#6cf";
-    ctx.strokeRect(50, 50, 300, 300);
+function TOOL_WETTE(raw){
+  TOOLATOR.wette = "Wette RAW=" + raw;
+  document.getElementById("wette_out").innerText = TOOLATOR.wette;
 }
-</script>
 
-</body>
-</html>
+function TOOL_SLIDE(p){
+  TOOLATOR.slide = p * 8;
+  document.getElementById("slide_out").innerText =
+    "Slide: " + TOOLATOR.slide + "%";
+}
+
+// ===============================
+// 4) AUTO – RAW – CHECK – OS
+// ===============================
+function genLAGE() {
+  return ["A","B","C","D"][Math.floor(Math.random()*4)];
+}
+function genKONTEXT() {
+  return ["TEST","LIVE","PROD"][Math.floor
