@@ -7,3 +7,5 @@ scope:
   - base
   - system
   - respo
+document.getElementById("raum_out").innerText =
+  "RAUM: X=" + window.BIL_RAUM.X + " Z=" + window.BIL_RAUM.Z;
