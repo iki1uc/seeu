@@ -1,0 +1,14 @@
+{
+  "NAME": "BIL-RAUM",
+  "ID": "BR-01",
+  "STATUS": "1",
+  "IST_IST": "OK",
+  "SOLL": "OK",
+  "VERWALTUNG3": {
+    "SET": { "UP": true },
+    "IO": { "IN": true },
+    "EXE": { "RUN": true }
+  },
+  "WAHRHEIT": "REAL",
+  "RAUM": { "X": 3, "Z": 7 }
+}
