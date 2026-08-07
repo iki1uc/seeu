@@ -1,12 +1,45 @@
-// 1. AXIOM-PRÜFER (synchron!)
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>SEE‑U / BIL / CUBE‑LIVE</title>
+<link rel="stylesheet" href="16.css">
+
+<style>
+  body { background:#000; color:#0f0; font-family:monospace; }
+  #OUT { padding:20px; border:1px solid #0f0; margin:20px; white-space:pre; }
+  #CUBE { position:fixed; top:10px; right:10px; width:260px; height:260px; border:1px solid #0f0; padding:10px; }
+  #ZOOM { position:fixed; bottom:10px; right:10px; width:260px; height:160px; border:1px solid #0f0; padding:10px; }
+</style>
+</head>
+
+<body>
+
+<h1>SEE‑U / BIL / CUBE‑LIVE</h1>
+<div id="OUT"></div>
+<div id="CUBE"></div>
+<div id="ZOOM"></div>
+
+<script>
+
+// ------------------------------------------------------
+// SEE‑U Loader (start8 / 6iy / beu / xyz)
+// ------------------------------------------------------
+async function SEE_U_LOAD(){
+  const S8  = await (await fetch("https://iki1uc.github.io/start8/start8.static.yml")).text();
+  const IY  = await (await fetch("https://iki1uc.github.io/6iy/6iy.static.yml")).text();
+  const BEU = await (await fetch("https://iki1uc.github.io/beu/beu.static.yml")).text();
+  const XYZ = await (await fetch("https://iki1uc.github.io/xyz/xyz.static.yml")).text();
+
+  return { S8, IY, BEU, XYZ };
+}
+
+// ------------------------------------------------------
+// AXIOM‑PRÜFER (RESPO)
+// ------------------------------------------------------
 function ghostScan(r){
   if(r.MISS){
-    return {
-      NAME: r.NAME,
-      RESULT: "FEHLT",
-      ERROR: true,
-      RAUM: "(keine Daten)"
-    };
+    return { NAME:r.NAME, RESULT:"FEHLT", ERROR:true, RAUM:"(keine Daten)" };
   }
 
   const WETTE = r.IST_IST !== r.SOLL;
@@ -20,40 +53,79 @@ function ghostScan(r){
       (r.RAUM.X + r.RAUM.Z);
 
   return {
-    NAME: r.NAME,
-    ID: r.ID,
-    RAUM: r.RAUM,
-    STATUS: r.STATUS,
-    RESULT: WETTE ? "HELFEN" : "OK",
+    NAME:r.NAME,
+    ID:r.ID,
+    RAUM:r.RAUM,
+    STATUS:r.STATUS,
+    RESULT:WETTE ? "HELFEN" : "OK",
     SCORE,
     WETTE,
-    OUT: r.VERWALTUNG3,
-    WAHRHEIT: r.WAHRHEIT,
-    EDIT: r.IST_IST
+    OUT:r.VERWALTUNG3,
+    WAHRHEIT:r.WAHRHEIT,
+    EDIT:r.IST_IST
   };
 }
 
+// ------------------------------------------------------
+// BIL‑SUPERLAGE + 3e‑Nordkern + RUN‑Vector‑Raster
+// ------------------------------------------------------
+async function LOAD_BIL(){
 
-// 2. BIL-MAUS (asynchron, getrennt!)
-async function BIL_MAUS_START() {
-  try {
-    const r = await fetch("./BIL/RAUM.json");
-    const data = await r.json();
+  const RAUM = await (await fetch("RAUM.json")).json();
+  const REAL = await (await fetch("REAL.json")).json();
+  const BIL  = await (await fetch("BIL.json")).json();
 
-    const out = ghostScan(data);
+  const RUN  = await (await fetch("RUN.rom")).text();
 
-    window.BIL_RAUM   = out.RAUM;
-    window.BIL_STATUS = out.STATUS;
-    window.BIL_SCORE  = out.SCORE;
-    window.BIL_WETTE  = out.WETTE;
-    window.BIL_RESULT = out.RESULT;
+  const OUT = document.getElementById("OUT");
+  const CUBE = document.getElementById("CUBE");
+  const ZOOM = document.getElementById("ZOOM");
 
-    console.log("BIL-MAUS AKTIV:", window.BIL_RAUM);
+  const AX = ghostScan(RAUM);
 
-  } catch(e) {
-    console.error("BIL-MAUS FEHLER:", e);
-  }
+  const E1 = { SUPERLAGE:BIL.SUPERLAGE, ECHO:BIL.ECHO, DRIFT:BIL.DRIFT, FALL:BIL.FALL };
+  const E2 = { VECTOR:{ X:RAUM.X, Z:RAUM.Z, W:REAL.WAHRHEIT, S:REAL.STATUS }, ORBIT:REAL.ORBIT };
+  const E3 = { PULSE: RUN.includes("8") ? "RUN8" : "RUN", STATION:{ ST1:BIL.ST1, ST2:BIL.ST2, ST3:BIL.ST3, ST4:BIL.ST4 } };
+
+  const RASTER = {
+    R1: E2.VECTOR.X,
+    R2: E2.VECTOR.Z,
+    R3: E1.ECHO,
+    R4: E3.PULSE,
+    R5: E1.DRIFT,
+    R6: E1.FALL
+  };
+
+  CUBE.innerHTML =
+    "CUBE‑LIVE\n\n" +
+    "X4: " + E2.VECTOR.X + "\n" +
+    "IX: " + E2.VECTOR.Z + "\n" +
+    "XI: " + E1.ECHO + "\n" +
+    "AIR: " + E3.PULSE + "\n" +
+    "AIV: " + E1.DRIFT + "\n";
+
+  ZOOM.innerHTML =
+    "SUPERLAGEN‑ZOOM\n\n" +
+    "E0: " + E1.SUPERLAGE + "\n" +
+    "ECHO: " + E1.ECHO + "\n" +
+    "DRIFT: " + E1.DRIFT + "\n" +
+    "FALL: " + E1.FALL + "\n";
+
+  OUT.innerHTML =
+    "SEE‑U MODULE GELADEN\n\n" +
+    JSON.stringify(await SEE_U_LOAD(),null,2) + "\n\n" +
+    "RUN 8 PIPELINE 4→0→1→2\n\n" +
+    "E1 (SUPERLAGE)\n" + JSON.stringify(E1,null,2) + "\n\n" +
+    "E2 (VECTOR + ORBIT)\n" + JSON.stringify(E2,null,2) + "\n\n" +
+    "E3 (PULSE + STATION)\n" + JSON.stringify(E3,null,2) + "\n\n" +
+    "RASTER (6e)\n" + JSON.stringify(RASTER,null,2) + "\n\n" +
+    "AXIOM‑PRÜFER\n" + JSON.stringify(AX,null,2) + "\n\n";
 }
 
-// Starten
 BIL_MAUS_START();
+LOAD_BIL();
+
+</script>
+
+</body>
+</html>
