@@ -2,127 +2,71 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>SEE‑U / BIL / CUBE‑LIVE</title>
-<link rel="stylesheet" href="16.css">
+<title>SEE‑U / KRALLEN‑MODUS</title>
 
 <style>
-  body { background:#000; color:#0f0; font-family:monospace; }
-  #OUT { padding:20px; border:1px solid #0f0; margin:20px; white-space:pre; }
-  #CUBE { position:fixed; top:10px; right:10px; width:260px; height:260px; border:1px solid #0f0; padding:10px; }
-  #ZOOM { position:fixed; bottom:10px; right:10px; width:260px; height:160px; border:1px solid #0f0; padding:10px; }
+  body { background:#000; color:#0f0; font-family:Consolas, monospace; padding:20px; }
+  #SEE { border:1px solid #0f0; padding:20px; margin-top:20px; white-space:pre; }
 </style>
 </head>
 
 <body>
 
-<h1>SEE‑U / BIL / CUBE‑LIVE</h1>
-<div id="OUT"></div>
-<div id="CUBE"></div>
-<div id="ZOOM"></div>
+<h1>SEE‑U / KRALLEN‑MODUS</h1>
+<div id="SEE"></div>
 
 <script>
 
 // ------------------------------------------------------
-// SEE‑U Loader (start8 / 6iy / beu / xyz)
+// SEE‑U KRALLEN‑MODUS
 // ------------------------------------------------------
-async function SEE_U_LOAD(){
-  const S8  = await (await fetch("https://iki1uc.github.io/start8/start8.static.yml")).text();
-  const IY  = await (await fetch("https://iki1uc.github.io/6iy/6iy.static.yml")).text();
-  const BEU = await (await fetch("https://iki1uc.github.io/beu/beu.static.yml")).text();
-  const XYZ = await (await fetch("https://iki1uc.github.io/xyz/xyz.static.yml")).text();
 
-  return { S8, IY, BEU, XYZ };
-}
+const SEE_U = {
+  MODE: "KRALLEN",
+  READY: true,
+  ACTIVE: false,
 
-// ------------------------------------------------------
-// AXIOM‑PRÜFER (RESPO)
-// ------------------------------------------------------
-function ghostScan(r){
-  if(r.MISS){
-    return { NAME:r.NAME, RESULT:"FEHLT", ERROR:true, RAUM:"(keine Daten)" };
-  }
+  // Anbindungen (nur bereit, nicht aktiv)
+  LINK: {
+    RESPO: true,
+    BIL: true,
+    CUBE_LIVE: true,
+    MXU: true,
+    RAW: true,
+    SLI: true,
+    TOOLATOR: true,
+    RUN8: true,
+    ROOM: true,
+    TIME: true,
+    O12: true,
+    BRM: true
+  },
 
-  const WETTE = r.IST_IST !== r.SOLL;
+  // Krallen geschärft – aber NICHT aktiv
+  CLAWS: {
+    X4: "READY",
+    IX: "READY",
+    XI: "READY",
+    AIR: "READY",
+    AIV: "READY"
+  },
 
-  const SCORE =
-      (r.STATUS === "1" ? 1 : 0) +
-      (r.VERWALTUNG3.SET.UP ? 1 : 0) +
-      (r.VERWALTUNG3.IO.IN ? 1 : 0) +
-      (r.VERWALTUNG3.EXE.RUN ? 1 : 0) +
-      (r.WAHRHEIT === "REAL" ? 1 : 0) +
-      (r.RAUM.X + r.RAUM.Z);
+  // Keine Engine, keine Pipeline
+  ENGINE: null,
+  PIPELINE: null,
+  SUPERLAGE: null,
+  VECTOR: null,
+  ORBIT: null,
+  PULSE: null,
+  STATION: null,
 
-  return {
-    NAME:r.NAME,
-    ID:r.ID,
-    RAUM:r.RAUM,
-    STATUS:r.STATUS,
-    RESULT:WETTE ? "HELFEN" : "OK",
-    SCORE,
-    WETTE,
-    OUT:r.VERWALTUNG3,
-    WAHRHEIT:r.WAHRHEIT,
-    EDIT:r.IST_IST
-  };
-}
+  // Nur Board‑Präsenz
+  BOARD: "SEE‑U sitzt bereit."
+};
 
-// ------------------------------------------------------
-// BIL‑SUPERLAGE + 3e‑Nordkern + RUN‑Vector‑Raster
-// ------------------------------------------------------
-async function LOAD_BIL(){
-
-  const RAUM = await (await fetch("RAUM.json")).json();
-  const REAL = await (await fetch("REAL.json")).json();
-  const BIL  = await (await fetch("BIL.json")).json();
-
-  const RUN  = await (await fetch("RUN.rom")).text();
-
-  const OUT = document.getElementById("OUT");
-  const CUBE = document.getElementById("CUBE");
-  const ZOOM = document.getElementById("ZOOM");
-
-  const AX = ghostScan(RAUM);
-
-  const E1 = { SUPERLAGE:BIL.SUPERLAGE, ECHO:BIL.ECHO, DRIFT:BIL.DRIFT, FALL:BIL.FALL };
-  const E2 = { VECTOR:{ X:RAUM.X, Z:RAUM.Z, W:REAL.WAHRHEIT, S:REAL.STATUS }, ORBIT:REAL.ORBIT };
-  const E3 = { PULSE: RUN.includes("8") ? "RUN8" : "RUN", STATION:{ ST1:BIL.ST1, ST2:BIL.ST2, ST3:BIL.ST3, ST4:BIL.ST4 } };
-
-  const RASTER = {
-    R1: E2.VECTOR.X,
-    R2: E2.VECTOR.Z,
-    R3: E1.ECHO,
-    R4: E3.PULSE,
-    R5: E1.DRIFT,
-    R6: E1.FALL
-  };
-
-  CUBE.innerHTML =
-    "CUBE‑LIVE\n\n" +
-    "X4: " + E2.VECTOR.X + "\n" +
-    "IX: " + E2.VECTOR.Z + "\n" +
-    "XI: " + E1.ECHO + "\n" +
-    "AIR: " + E3.PULSE + "\n" +
-    "AIV: " + E1.DRIFT + "\n";
- 
-  ZOOM.innerHTML =
-    "SUPERLAGEN‑ZOOM\n\n" +
-    "E0: " + E1.SUPERLAGE + "\n" +
-    "ECHO: " + E1.ECHO + "\n" +
-    "DRIFT: " + E1.DRIFT + "\n" +
-    "FALL: " + E1.FALL + "\n";
-
-  OUT.innerHTML =
-    "SEE‑U MODULE GELADEN\n\n" +
-    JSON.stringify(await SEE_U_LOAD(),null,2) + "\n\n" +
-    "RUN 8 PIPELINE 4→0→1→2\n\n" +
-    "E1 (SUPERLAGE)\n" + JSON.stringify(E1,null,2) + "\n\n" +
-    "E2 (VECTOR + ORBIT)\n" + JSON.stringify(E2,null,2) + "\n\n" +
-    "E3 (PULSE + STATION)\n" + JSON.stringify(E3,null,2) + "\n\n" +
-    "RASTER (6e)\n" + JSON.stringify(RASTER,null,2) + "\n\n" +
-    "AXIOM‑PRÜFER\n" + JSON.stringify(AX,null,2) + "\n\n";
-}
-
-LOAD_BIL();
+// Ausgabe
+document.getElementById("SEE").innerText =
+  JSON.stringify(SEE_U, null, 2);
 
 </script>
 
