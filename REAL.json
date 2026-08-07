@@ -1,0 +1,14 @@
+{
+  "NAME": "REAL",
+  "ID": 14001,
+  "STATUS": "1",
+  "IST_IST": "OK",
+  "SOLL": "OK",
+  "VERWALTUNG3": {
+    "SET": { "UP": true },
+    "IO": { "IN": true },
+    "EXE": { "RUN": true }
+  },
+  "WAHRHEIT": "REAL",
+  "RAUM": { "X": 14, "Z": 1 }
+}
