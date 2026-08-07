@@ -1,11 +1,18 @@
-version: 1
-id: start8
-label: "START8"
-active: true
-claim: "Standard-Start"
-scope:
-  - base
-  - system
-  - respo
-document.getElementById("raum_out").innerText =
-  "RAUM: X=" + window.BIL_RAUM.X + " Z=" + window.BIL_RAUM.Z;
+async function LOAD_BIL_RAUM() {
+  try {
+    const r = await fetch("./BIL/RAUM.json");
+    const data = await r.json();
+    const out = ghostScan(data);
+
+    window.BIL_RAUM = out.RAUM;
+
+    document.getElementById("raum_out").innerText =
+      "RAUM: X=" + window.BIL_RAUM.X + " Z=" + window.BIL_RAUM.Z;
+
+  } catch(e) {
+    document.getElementById("raum_out").innerText =
+      "RAUM: FEHLER";
+  }
+}
+
+LOAD_BIL_RAUM();
