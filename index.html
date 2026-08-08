@@ -2,72 +2,106 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>SEE‑U / KRALLEN‑MODUS</title>
+<title>SEE‑U · KRALLEN‑MODUS · ULTRA‑ENGINE</title>
 
 <style>
   body { background:#000; color:#0f0; font-family:Consolas, monospace; padding:20px; }
-  #SEE { border:1px solid #0f0; padding:20px; margin-top:20px; white-space:pre; }
+  h1 { color:#ff00ff; text-shadow:0 0 10px #ff00ff; }
+  pre { background:#111; padding:15px; border-left:4px solid #ff00ff; white-space:pre-wrap; }
 </style>
 </head>
 
 <body>
 
-<h1>SEE‑U / KRALLEN‑MODUS</h1>
-<div id="SEE"></div>
+<h1>SEE‑U · KRALLEN‑MODUS · ULTRA‑ENGINE</h1>
+<pre id="SEE">Lade SEE‑U…</pre>
 
 <script>
+// ------------------------------------------------------
+// SEE‑U KRALLEN‑MODUS — Aktivierter Kern
+// ------------------------------------------------------
+
+const CLAWS = ["X4","IX","XI","AIR","AIV"];
+const STATION = ["OK","NOK","FLOW","BREAK","ECHO","VOID","ROOT"];
+
+let frame = 0;
+let pulse = 0;
+let orbit = 0;
+let vector = 0;
 
 // ------------------------------------------------------
-// SEE‑U KRALLEN‑MODUS
+// ENGINE — KRALLEN‑MODUS
 // ------------------------------------------------------
 
-const SEE_U = {
-  MODE: "KRALLEN",
-  READY: true,
-  ACTIVE: false,
+function KRALLEN_ENGINE(){
 
-  // Anbindungen (nur bereit, nicht aktiv)
-  LINK: {
-    RESPO: true,
-    BIL: true,
-    CUBE_LIVE: true,
-    MXU: true,
-    RAW: true,
-    SLI: true,
-    TOOLATOR: true,
-    RUN8: true,
-    ROOM: true,
-    TIME: true,
-    O12: true,
-    BRM: true
-  },
+    frame++;
 
-  // Krallen geschärft – aber NICHT aktiv
-  CLAWS: {
-    X4: "READY",
-    IX: "READY",
-    XI: "READY",
-    AIR: "READY",
-    AIV: "READY"
-  },
+    // Pulse‑Engine
+    pulse = (pulse + 1) % 9;
 
-  // Keine Engine, keine Pipeline
-  ENGINE: null,
-  PIPELINE: null,
-  SUPERLAGE: null,
-  VECTOR: null,
-  ORBIT: null,
-  PULSE: null,
-  STATION: null,
+    // Orbit‑Engine
+    orbit = Math.sin(frame * 0.05).toFixed(3);
 
-  // Nur Board‑Präsenz
-  BOARD: "SEE‑U sitzt bereit."
-};
+    // Vector‑Engine
+    vector = Math.cos(frame * 0.03).toFixed(3);
 
-// Ausgabe
-document.getElementById("SEE").innerText =
-  JSON.stringify(SEE_U, null, 2);
+    // Station‑Engine
+    const station = STATION[frame % STATION.length];
 
+    // Claw‑Rotation
+    const claw = CLAWS[frame % CLAWS.length];
+
+    // Resume‑Output
+    const out = `
+SEE‑U · KRALLEN‑MODUS · ACTIVE
+
+FRAME: ${frame}
+STATION: ${station}
+CLAW: ${claw}
+
+PULSE: ${pulse}
+ORBIT: ${orbit}
+VECTOR: ${vector}
+
+KRALLEN‑STATUS:
+X4  : READY
+IX  : READY
+XI  : READY
+AIR : READY
+AIV : READY
+
+LINKS:
+RESPO      ✓
+BIL        ✓
+CUBE_LIVE  ✓
+MXU        ✓
+RAW        ✓
+SLI        ✓
+TOOLATOR   ✓
+RUN8       ✓
+ROOM       ✓
+TIME       ✓
+O12        ✓
+BRM        ✓
+
+ENGINE: ACTIVE
+PIPELINE: KRALLEN‑FLOW
+SUPERLAGE: NC‑REAL
+VECTOR: LIVE
+ORBIT: SYNC
+PULSE: FLOW
+STATION: ${station}
+
+SEE‑U IST JETZT AKTIV.
+`;
+
+    document.getElementById("SEE").textContent = out;
+
+    requestAnimationFrame(KRALLEN_ENGINE);
+}
+
+KRALLEN_ENGINE();
 </script>
 
 </body>
