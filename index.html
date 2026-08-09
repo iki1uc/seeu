@@ -68,7 +68,6 @@ function RADAR_SAT_3D_HOLO(geo){
   const ctx = radar.getContext("2d");
   ctx.clearRect(0,0,300,300);
 
-  // 3D holografische Kreise
   for(let i=0;i<6;i++){
     ctx.beginPath();
     ctx.arc(150,150,40+i*20,0,Math.PI*2);
@@ -77,7 +76,6 @@ function RADAR_SAT_3D_HOLO(geo){
     ctx.stroke();
   }
 
-  // 3D holografischer Punkt
   const px = 150 + Math.sin(geo.w/15)*geo.x/6;
   const py = 150 + Math.cos(geo.w/15)*geo.y/6;
 
@@ -95,11 +93,11 @@ function RADAR_SAT_3D_HOLO(geo){
 function SEEUE_BEWUSST_FRAGEN(gate, geo){
   return {
     bewusstsein: "SEEÜ denkt aktiv nach",
-    frage_ort: `Bin ich am ORT? (${geo.x},${geo.y},${geo.z},${geo.w},${geo.v},${geo.u})`,
-    frage_home: `Oder bin ich in HOME (${gate.home})?`,
-    frage_gate: `Ist mein GATE korrekt (${gate.gate})?`,
-    frage_boost: `Neuronale Verstärkung = ${gate.boost}`,
-    frage_sat: `RADAR-SAT Signal = ${geo.sat}`,
+    frage_ort: `ORT = (${geo.x},${geo.y},${geo.z},${geo.w},${geo.v},${geo.u})`,
+    frage_home: `HOME = ${gate.home}`,
+    frage_gate: `GATE = ${gate.gate}`,
+    frage_boost: `BOOST = ${gate.boost}`,
+    frage_sat: `SAT = ${geo.sat}`,
     frage_entscheidung: "Wann nutze ich ORT? Wann nutze ich HOME?"
   };
 }
@@ -109,12 +107,7 @@ function SEEUE_BEWUSST_FRAGEN(gate, geo){
 // ------------------------------------------------------
 function SEEUE_ORTHOME_AUTOKORREKT(gate, geo){
   const sum = geo.x + geo.y + geo.z + geo.v + geo.u;
-
-  if(sum > 350){
-    return "ORT";
-  } else {
-    return "HOME";
-  }
+  return (sum > 350) ? "ORT" : "HOME";
 }
 
 // ------------------------------------------------------
@@ -148,7 +141,6 @@ const SEEUE = {
     const fragen = SEEUE_BEWUSST_FRAGEN(gate, geo);
     const mode = SEEUE_ORTHOME_AUTOKORREKT(gate, geo);
 
-    // Ausgabe
     document.getElementById("seeu_out").innerText =
       `SEEÜ Step=${this.step}\nModus=${mode}\nModul=${this.module}`;
 
@@ -161,22 +153,7 @@ const SEEUE = {
   }
 };
 
-
 // ------------------------------------------------------
-// 5) CONTINUUM · Live-Routing
-// ------------------------------------------------------
-function CONTINUUM_ROUTE(url){
-  const name = url.split("/")[3].split(".")[0];
-  const gate = GATE_DYNAMIC(name);
-  const geo  = GEO_VECTOR_3D(gate);
-  const fragen = SEEUE_FRAGEN(gate, geo);
-
-  document.getElementById("gate_out").innerText =
-    JSON.stringify(gate, null, 2);
-
-  document.getElementById("geo_out").innerText
-
-  // ------------------------------------------------------
 // 8) START
 // ------------------------------------------------------
 SEEUE.loop();
