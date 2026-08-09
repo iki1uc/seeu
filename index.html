@@ -2,252 +2,118 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>CONTINUUM · AHA · SEEÜ · RESPO</title>
+<title>SEEÜ · EVO · PREFETCH · CONTINUUM</title>
 
-<meta name="respo-id" content="§">
+<!-- PREFETCH-LINKS -->
+<link rel="prefetch" href="https://iki1uc.github.io/AQUA/AQUA.static.yml">
+<link rel="prefetch" href="https://iki1uc.github.io/EDIT/EDIT.static.yml">
+<link rel="prefetch" href="https://iki1uc.github.io/CLOU/CLOU.static.yml">
+<link rel="prefetch" href="https://iki1uc.github.io/WETTEN/WETTEN.static.yml">
+<link rel="prefetch" href="https://iki1uc.github.io/6iy/6iy.static.yml">
+<link rel="prefetch" href="https://iki1uc.github.io/beu/beu.static.yml">
+<link rel="prefetch" href="https://iki1uc.github.io/xyz/xyz.static.yml">
 
 <style>
-  body { background:#000; color:#fff7aa; font-family:Consolas, monospace; padding:20px; }
-  h1 { color:#ff00ff; text-shadow:0 0 10px #ff00ff; }
-  .section { margin-top:40px; }
-  pre { background:#111; padding:15px; border-left:4px solid #ff00ff; white-space:pre-wrap; }
-  .axis-btn { display:block; margin:6px 0; padding:8px; font-weight:bold; color:#000; border-radius:4px; }
-  .active { opacity:1.0; }
-  .inactive { opacity:0.3; }
+  body { background:#000; color:#fff; font-family:Consolas; padding:20px; }
+  pre { background:#111; padding:10px; border-left:4px solid #0ff; }
 </style>
 </head>
 
 <body>
 
-<h1>CONTINUUM · AHA · SEEÜ · RESPO</h1>
-<p>ID aktiv: <strong>§</strong></p>
+<h1>SEEÜ · EVO · PREFETCH · CONTINUUM</h1>
 
-<!-- AHA Cockpit -->
-<div class="section">
-  <h2>AHA · Cockpit</h2>
-  <div id="cockpit"></div>
-</div>
-
-<!-- SEEÜ RUHE -->
-<div class="section">
-  <h2>SEEÜ · RUHE</h2>
-  <pre id="seeuRuhe"></pre>
-</div>
-
-<!-- PEIN -->
-<div class="section">
-  <h2>PEIN · Engine</h2>
-  <pre id="peinOut"></pre>
-</div>
-
-<!-- NAEKY -->
-<div class="section">
-  <h2>NAEKY · ZERO‑QUAD‑EDIT</h2>
-  <pre id="naekyOut"></pre>
-</div>
-
-<!-- KRALLEN -->
-<div class="section">
-  <h2>SEEÜ · KRALLEN‑MODUS</h2>
-  <pre id="krallen"></pre>
-</div>
-
-<!-- SOLAR -->
-<div class="section">
-  <h2>SOLAR · Eclipse</h2>
-  <div class="eclipse solar">
-    <div class="sun"></div>
-    <div class="moon"></div>
-  </div>
-</div>
-
-<!-- LUNAR -->
-<div class="section">
-  <h2>LUNAR · Eclipse</h2>
-  <div class="eclipse lunar">
-    <div class="earth"></div>
-    <div class="moon"></div>
-  </div>
-</div>
-
-<!-- Continuum CSV -->
-<div class="section">
-  <h2>Continuum‑Matrix</h2>
-  <pre id="continuum"></pre>
-</div>
+<pre id="prefetch_out"></pre>
+<pre id="seeu_out"></pre>
+<pre id="evo_out"></pre>
+<pre id="motor_out"></pre>
 
 <script>
-
 // ------------------------------------------------------
-// RESPO · A/B/C/D + CLAW (IX / XI / X4 / AIR / AIV)
+// 1) PREFETCH · CORE
 // ------------------------------------------------------
-
-function RESPO_CORE(key) {
-
-  // Grundreaktion
-  const base = {
-    "a": { respo: "A", meaning: "nein" },
-    "b": { respo: "B", meaning: "ja" },
-    "c": { respo: "C", meaning: "weiter" },
-    "d": { respo: "D", meaning: "ende" }
-  }[key] || { respo: "C", meaning: "weiter" };
-
-  // CLAW‑Layer Rotation
-  const CLAWS = ["IX","XI","X4","AIR","AIV"];
-  const claw = CLAWS[Math.floor(Math.random() * CLAWS.length)];
-
-  return {
-    respo: base.respo,
-    meaning: base.meaning,
-    claw: claw
-  };
-}
-// ------------------------------------------------------
-// TASTEN-ABFANG · RESPO + CLAW · 404-Schutz
-// ------------------------------------------------------
-
-window.addEventListener("keydown", function(e) {
-
-  const key = e.key.toLowerCase();
-
-  // Nur A/B/C/D für RESPO
-  if (!["a","b","c","d"].includes(key)) return;
-
-  // Browser-Navigation verhindern (404-Fix)
-  e.preventDefault();
-
-  // RESPO + CLAW erzeugen
-  const out = RESPO_CORE(key);
-
-  // Ausgabe sichtbar machen
-  document.getElementById("krallen").textContent =
-    `RESPO: ${out.respo}\nMEANING: ${out.meaning}\nCLAW: ${out.claw}`;
-
-  // AHA koppeln
-  AHA_REACT(out);
-
-  // SEEÜ koppeln
-  SEEUE_REACT(out);
-});
-// ------------------------------------------------------
-// AHA · REAKTION
-// ------------------------------------------------------
-
-function AHA_REACT(out) {
-  const aha = document.getElementById("AHA");
-  aha.textContent = `AHA · ${out.respo} · ${out.claw}`;
-}
-// ------------------------------------------------------
-// SEEÜ · REAKTION
-// ------------------------------------------------------
-
-function SEEUE_REACT(out) {
-  document.getElementById("seeuRuhe").textContent =
-    JSON.stringify({
-      mode: "RESPO-INPUT",
-      respo: out.respo,
-      meaning: out.meaning,
-      claw: out.claw
-    }, null, 2);
+async function prefetch(url) {
+  try {
+    const res = await fetch(url, { cache: "force-cache" });
+    return await res.text();
+  } catch (e) {
+    return null;
+  }
 }
 
-document.getElementById("peinOut").textContent =
-  JSON.stringify(new PEIN({x:1,y:1,w:2,h:2}, [{id:1},{id:2},{id:3}], repos).run(), null, 2);
-// ------------------------------------------------------
-// CONTINUUM · FLOW · STORY · SLIDE · CLAW-EXTENDED
-// ------------------------------------------------------
+const PREFETCH_LIST = [
+  "https://iki1uc.github.io/AQUA/AQUA.static.yml",
+  "https://iki1uc.github.io/EDIT/EDIT.static.yml",
+  "https://iki1uc.github.io/CLOU/CLOU.static.yml",
+  "https://iki1uc.github.io/WETTEN/WETTEN.static.yml",
+  "https://iki1uc.github.io/6iy/6iy.static.yml",
+  "https://iki1uc.github.io/beu/beu.static.yml",
+  "https://iki1uc.github.io/xyz/xyz.static.yml"
+];
 
-let FLOW_FRAME = 0;
-let STORY_LOG = [];
-let SLIDE_STEP = 0;
-
-// Erweiterte CLAW-Liste
-const CLAW_EXT = ["IX","XI","X4","AIR","AIV","SUN","MOON","CORE","FLOW"];
-
-// RESPO + CLAW + Flow + Story + Slide
-function CONTINUUM_REACT(key) {
-
-  // RESPO Grundreaktion
-  const base = {
-    "a": { respo: "A", meaning: "nein" },
-    "b": { respo: "B", meaning: "ja" },
-    "c": { respo: "C", meaning: "weiter" },
-    "d": { respo: "D", meaning: "ende" }
-  }[key] || { respo: "C", meaning: "weiter" };
-
-  // CLAW erweitert
-  const claw = CLAW_EXT[Math.floor(Math.random() * CLAW_EXT.length)];
-
-  // Flow-Frame erhöhen
-  FLOW_FRAME++;
-
-  // Slide erhöhen
-  SLIDE_STEP++;
-
-  // Story-Eintrag erzeugen
-  const story = `Frame ${FLOW_FRAME} · Slide ${SLIDE_STEP} · RESPO ${base.respo} · CLAW ${claw}`;
-  STORY_LOG.push(story);
-
-  // Ausgabe zurückgeben
-  return {
-    respo: base.respo,
-    meaning: base.meaning,
-    claw: claw,
-    frame: FLOW_FRAME,
-    slide: SLIDE_STEP,
-    story: story
-  };
-}
-// ------------------------------------------------------
-// TASTEN-ABFANG · CONTINUUM-FLOW
-// ------------------------------------------------------
-
-window.addEventListener("keydown", function(e) {
-
-  const key = e.key.toLowerCase();
-
-  // Nur A/B/C/D
-  if (!["a","b","c","d"].includes(key)) return;
-
-  e.preventDefault();
-
-  // Continuum-Reaktion erzeugen
-  const out = CONTINUUM_REACT(key);
-
-  // KRALLEN-Ausgabe
-  document.getElementById("krallen").textContent =
-    `RESPO: ${out.respo}
-MEANING: ${out.meaning}
-CLAW: ${out.claw}
-FRAME: ${out.frame}
-SLIDE: ${out.slide}
-STORY: ${out.story}`;
-
-  // AHA koppeln
-  AHA_REACT(out);
-
-  // SEEÜ koppeln
-  SEEUE_REACT(out);
-});
-function AHA_REACT(out) {
-  const aha = document.getElementById("AHA");
-  aha.textContent = `AHA · ${out.respo} · ${out.claw} · Frame ${out.frame}`;
-}
-function SEEUE_REACT(out) {
-  document.getElementById("seeuRuhe").textContent =
-    JSON.stringify({
-      mode: "CONTINUUM-FLOW",
-      respo: out.respo,
-      meaning: out.meaning,
-      claw: out.claw,
-      frame: out.frame,
-      slide: out.slide,
-      story: out.story
-    }, null, 2);
+async function PREFETCH_ALL() {
+  const out = {};
+  for (const url of PREFETCH_LIST) {
+    out[url] = await prefetch(url);
+  }
+  document.getElementById("prefetch_out").innerText =
+    JSON.stringify(out, null, 2);
+  return out;
 }
 
 // ------------------------------------------------------
-// NAEKY
+// 2) SEEÜ · MOTOR · PREFETCH-MODUS
 // ------------------------------------------------------
-class NAEKY {
-    constructor
+const SEEUE = {
+  step: 0,
+  motor: false,
+
+  start() {
+    this.motor = true;
+    this.loop();
+  },
+
+  stop() {
+    this.motor = false;
+  },
+
+  loop() {
+    if (!this.motor) return;
+    this.step++;
+    document.getElementById("motor_out").innerText =
+      "SEEÜ Motor Step: " + this.step;
+    setTimeout(() => this.loop(), 200);
+  }
+};
+
+// ------------------------------------------------------
+// 3) EVO · AKTEUR
+// ------------------------------------------------------
+const EVO = {
+  state: "INIT",
+  act(step) {
+    this.state = "EVO@" + step;
+    document.getElementById("evo_out").innerText =
+      "EVO Zustand: " + this.state;
+  }
+};
+
+// ------------------------------------------------------
+// 4) CONTINUUM · MINIMAL
+// ------------------------------------------------------
+async function CONTINUUM() {
+  const pf = await PREFETCH_ALL();
+  SEEUE.start();
+
+  setInterval(() => {
+    EVO.act(SEEUE.step);
+    document.getElementById("seeu_out").innerText =
+      "SEEÜ Step: " + SEEUE.step;
+  }, 300);
+}
+
+CONTINUUM();
+</script>
+
+</body>
+</html>
