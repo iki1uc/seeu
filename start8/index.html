@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>ORGA — AUTO‑SEARCH‑SIM</title>
+
+<style>
+  body { background:#000; color:#0f0; font-family:Consolas; padding:20px; }
+  .box { border:1px solid #0f0; padding:15px; margin-bottom:20px; }
+  h2 { margin-top:0; }
+  .state { color:#6cf; }
+</style>
+</head>
+
+<body>
+
+<h1>ORGA — AUTO‑SEARCH‑SIM</h1>
+
+<div class="box">
+  <h2>AUTO‑GLOBAL</h2>
+  <div>MODE: <span id="mode">–</span></div>
+  <div>READY: <span id="ready">–</span></div>
+  <div>ACTIVE: <span id="active">–</span></div>
+</div>
+
+<div class="box">
+  <h2>SEARCH‑STATE</h2>
+  <div>SEARCH: <span id="search" class="state">–</span></div>
+</div>
+
+<div class="box">
+  <h2>Vector‑Stationen</h2>
+  <div>X4: <span id="v-x4">–</span></div>
+  <div>IX: <span id="v-ix">–</span></div>
+  <div>XI: <span id="v-xi">–</span></div>
+  <div>AIR: <span id="v-air">–</span></div>
+  <div>AIV: <span id="v-aiv">–</span></div>
+</div>
+
+<div class="box">
+  <h2>Orbit / Pulse / RAW</h2>
+  <div>Orbit: <span id="orbit">–</span></div>
+  <div>Pulse: <span id="pulse">–</span></div>
+  <div>RAW: <span id="raw">–</span></div>
+</div>
+
+<script type="module">
+
+// ------------------------------------------------------
+// ORGA AUTO‑Bereitschafts‑Kernel
+// ------------------------------------------------------
+
+const ORGA_AUTO = {
+  MODE: "AUTO-BEREIT",
+  READY: true,
+  ACTIVE: false,
+
+  VECTOR: {
+    X4: "READY",
+    IX: "READY",
+    XI: "READY",
+    AIR: "READY",
+    AIV: "READY"
+  },
+
+  ORBIT: "READY",
+  PULSE: "READY",
+  RAW: "READY"
+};
+
+// ------------------------------------------------------
+// SEARCH‑SIM (3‑Zustände)
+// ------------------------------------------------------
+
+const SEARCH_STATES = ["FOUND", "MISS", "FAIL"];
+let searchPos = 0;
+
+// ------------------------------------------------------
+// VECTOR‑SIM (5‑Zustände)
+// ------------------------------------------------------
+
+const VECTOR_KEYS = ["X4", "IX", "XI", "AIR", "AIV"];
+let vectorPos = 0;
+
+// ------------------------------------------------------
+// ORBIT / PULSE / RAW‑Sim
+// ------------------------------------------------------
+
+let pulseTick = 0;
+
+// ------------------------------------------------------
+// UPDATE‑LOOP
+// ------------------------------------------------------
+
+function updateSim() {
+
+  // SEARCH‑STATE rotieren
+  const searchState = SEARCH_STATES[searchPos];
+  document.getElementById("search").innerText = searchState;
+  searchPos = (searchPos + 1) % SEARCH_STATES.length;
+
+  // VECTOR‑STATE rotieren
+  const vectorKey = VECTOR_KEYS[vectorPos];
+  ORGA_AUTO.VECTOR[vectorKey] = searchState;
+  vectorPos = (vectorPos + 1) % VECTOR_KEYS.length;
+
+  // ORBIT / PULSE / RAW simulieren
+  pulseTick++;
+  ORGA_AUTO.ORBIT = pulseTick % 2 === 0 ? "ORBIT‑SYNC" : "ORBIT‑DRIFT";
+  ORGA_AUTO.PULSE = pulseTick % 3 === 0 ? "PULSE‑X" : "PULSE‑O";
+  ORGA_AUTO.RAW   = pulseTick % 5 === 0 ? "RAW‑FLOW" : "RAW‑IDLE";
+
+  // Ausgabe aktualisieren
+  document.getElementById("mode").innerText = ORGA_AUTO.MODE;
+  document.getElementById("ready").innerText = ORGA_AUTO.READY;
+  document.getElementById("active").innerText = ORGA_AUTO.ACTIVE;
+
+  document.getElementById("v-x4").innerText = ORGA_AUTO.VECTOR.X4;
+  document.getElementById("v-ix").innerText = ORGA_AUTO.VECTOR.IX;
+  document.getElementById("v-xi").innerText = ORGA_AUTO.VECTOR.XI;
+  document.getElementById("v-air").innerText = ORGA_AUTO.VECTOR.AIR;
+  document.getElementById("v-aiv").innerText = ORGA_AUTO.VECTOR.AIV;
+
+  document.getElementById("orbit").innerText = ORGA_AUTO.ORBIT;
+  document.getElementById("pulse").innerText = ORGA_AUTO.PULSE;
+  document.getElementById("raw").innerText = ORGA_AUTO.RAW;
+}
+
+// ------------------------------------------------------
+// LOOP starten
+// ------------------------------------------------------
+
+setInterval(updateSim, 600);
+
+</script>
+
+</body>
+</html>
