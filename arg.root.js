@@ -15,3 +15,8 @@ async function PREFETCH_ALL() {
   }
   return out;
 }
+function KORREKTUR(achse){
+  if(achse.mismatch > 120) return "ORT";
+  if(achse.dominant === achse.home) return "HOME";
+  return "STABIL";
+}
