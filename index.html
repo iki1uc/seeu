@@ -6,7 +6,7 @@
 
 <style>
   body { background:#000; color:#fff; font-family:Consolas; padding:20px; }
-  #radarCanvas { width:300px; height:300px; background:#111; border-radius:50%; border:3px solid #0ff; margin-top:20px; }
+  #radarCanvas { width:300px; height:300px; margin-top:20px; }
   pre { background:#111; padding:10px; border-left:4px solid #0ff; }
 </style>
 </head>
@@ -15,7 +15,7 @@
 
 <h1>SEEÜ · EVO · GATE · RADAR · GEO · CONTINUUM</h1>
 
-<div id="radarCanvas"></div>
+<canvas id="radarCanvas" width="300" height="300"></canvas>
 
 <pre id="gate_out"></pre>
 <pre id="geo_out"></pre>
@@ -37,7 +37,6 @@ const GATE_MATRIX = {
   xyz:{gate:"KANAL",math:"∴",home:"HOME-7"}
 };
 
-// neuronale Verstärkung
 function GATE_NEURAL_BOOST(name, evo){
   const base = GATE_MATRIX[name] || GATE_MATRIX["start8"];
   return {
@@ -65,7 +64,9 @@ function GEO_VECTOR_6D(gate, evo){
 // 3) RADAR-SAT · 3D-Hologramm
 // ------------------------------------------------------
 function RADAR_SAT_3D_HOLO(geo){
+  const radar = document.getElementById("radarCanvas");
   const ctx = radar.getContext("2d");
+
   ctx.clearRect(0,0,300,300);
 
   for(let i=0;i<6;i++){
@@ -93,12 +94,12 @@ function RADAR_SAT_3D_HOLO(geo){
 function SEEUE_BEWUSST_FRAGEN(gate, geo){
   return {
     bewusstsein: "SEEÜ denkt aktiv nach",
-    frage_ort: `ORT = (${geo.x},${geo.y},${geo.z},${geo.w},${geo.v},${geo.u})`,
-    frage_home: `HOME = ${gate.home}`,
-    frage_gate: `GATE = ${gate.gate}`,
-    frage_boost: `BOOST = ${gate.boost}`,
-    frage_sat: `SAT = ${geo.sat}`,
-    frage_entscheidung: "Wann nutze ich ORT? Wann nutze ich HOME?"
+    ort: `ORT = (${geo.x},${geo.y},${geo.z},${geo.w},${geo.v},${geo.u})`,
+    home: `HOME = ${gate.home}`,
+    gate: `GATE = ${gate.gate}`,
+    boost: `BOOST = ${gate.boost}`,
+    sat: `SAT = ${geo.sat}`,
+    entscheidung: "Wann nutze ich ORT? Wann nutze ich HOME?"
   };
 }
 
@@ -144,6 +145,12 @@ const SEEUE = {
     document.getElementById("seeu_out").innerText =
       `SEEÜ Step=${this.step}\nModus=${mode}\nModul=${this.module}`;
 
+    document.getElementById("gate_out").innerText =
+      JSON.stringify(gate, null, 2);
+
+    document.getElementById("geo_out").innerText =
+      JSON.stringify(geo, null, 2);
+
     document.getElementById("fragen_out").innerText =
       JSON.stringify(fragen, null, 2);
 
@@ -157,3 +164,7 @@ const SEEUE = {
 // 8) START
 // ------------------------------------------------------
 SEEUE.loop();
+</script>
+
+</body>
+</html>
