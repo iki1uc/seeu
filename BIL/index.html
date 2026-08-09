@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>RESPO · PRESENT · Viewer</title>
+
+<style>
+body {
+    background:#000;
+    color:#0ff;
+    font-family:Consolas;
+    margin:0;
+    padding:0;
+}
+#viewer {
+    padding:20px;
+    height:100vh;
+    overflow-y:scroll;
+    background:#000;
+}
+pre {
+    background:#111;
+    padding:20px;
+    border-left:4px solid #6cf;
+    margin-bottom:20px;
+    white-space:pre-wrap;
+}
+h1 {
+    text-align:center;
+    padding:20px;
+    color:#6cf;
+}
+</style>
+
+<script type="module">
+
+async function loadFile(path) {
+    try {
+        const res = await fetch(path);
+        const txt = await res.text();
+        return {path, txt};
+    } catch(e) {
+        return {path, txt:"[Fehler beim Laden]"};
+    }
+}
+
+async function start() {
+
+    const files = [
+        "BIL.json",
+        "RAUM.json",
+        "REAL.json",
+        "GO.rom",
+        "RUN.rom",
+        "RUNE.RUN.js",
+        "RUNE.LIST.js",
+        "LIST.rom",
+        "ID.html",
+        "index.html",
+        "RUNE.LIST.rom",
+        "16.css",
+        "16k.ROM",
+        "RAW.mp3",
+        "time_3x11_scroll_zoom.html"
+    ];
+
+    const viewer = document.getElementById("viewer");
+
+    for (const f of files) {
+        const data = await loadFile(f);
+
+        const block = document.createElement("pre");
+        block.innerHTML = `# ${data.path}\n\n${data.txt}`;
+        viewer.appendChild(block);
+    }
+}
+
+start();
+
+</script>
+
+</head>
+
+<body>
+
+<h1>RESPO · PRESENT · Viewer</h1>
+<div id="viewer"></div>
+
+</body>
+</html>
