@@ -153,6 +153,98 @@ function SEEUE_REACT(out) {
 
 document.getElementById("peinOut").textContent =
   JSON.stringify(new PEIN({x:1,y:1,w:2,h:2}, [{id:1},{id:2},{id:3}], repos).run(), null, 2);
+// ------------------------------------------------------
+// CONTINUUM · FLOW · STORY · SLIDE · CLAW-EXTENDED
+// ------------------------------------------------------
+
+let FLOW_FRAME = 0;
+let STORY_LOG = [];
+let SLIDE_STEP = 0;
+
+// Erweiterte CLAW-Liste
+const CLAW_EXT = ["IX","XI","X4","AIR","AIV","SUN","MOON","CORE","FLOW"];
+
+// RESPO + CLAW + Flow + Story + Slide
+function CONTINUUM_REACT(key) {
+
+  // RESPO Grundreaktion
+  const base = {
+    "a": { respo: "A", meaning: "nein" },
+    "b": { respo: "B", meaning: "ja" },
+    "c": { respo: "C", meaning: "weiter" },
+    "d": { respo: "D", meaning: "ende" }
+  }[key] || { respo: "C", meaning: "weiter" };
+
+  // CLAW erweitert
+  const claw = CLAW_EXT[Math.floor(Math.random() * CLAW_EXT.length)];
+
+  // Flow-Frame erhöhen
+  FLOW_FRAME++;
+
+  // Slide erhöhen
+  SLIDE_STEP++;
+
+  // Story-Eintrag erzeugen
+  const story = `Frame ${FLOW_FRAME} · Slide ${SLIDE_STEP} · RESPO ${base.respo} · CLAW ${claw}`;
+  STORY_LOG.push(story);
+
+  // Ausgabe zurückgeben
+  return {
+    respo: base.respo,
+    meaning: base.meaning,
+    claw: claw,
+    frame: FLOW_FRAME,
+    slide: SLIDE_STEP,
+    story: story
+  };
+}
+// ------------------------------------------------------
+// TASTEN-ABFANG · CONTINUUM-FLOW
+// ------------------------------------------------------
+
+window.addEventListener("keydown", function(e) {
+
+  const key = e.key.toLowerCase();
+
+  // Nur A/B/C/D
+  if (!["a","b","c","d"].includes(key)) return;
+
+  e.preventDefault();
+
+  // Continuum-Reaktion erzeugen
+  const out = CONTINUUM_REACT(key);
+
+  // KRALLEN-Ausgabe
+  document.getElementById("krallen").textContent =
+    `RESPO: ${out.respo}
+MEANING: ${out.meaning}
+CLAW: ${out.claw}
+FRAME: ${out.frame}
+SLIDE: ${out.slide}
+STORY: ${out.story}`;
+
+  // AHA koppeln
+  AHA_REACT(out);
+
+  // SEEÜ koppeln
+  SEEUE_REACT(out);
+});
+function AHA_REACT(out) {
+  const aha = document.getElementById("AHA");
+  aha.textContent = `AHA · ${out.respo} · ${out.claw} · Frame ${out.frame}`;
+}
+function SEEUE_REACT(out) {
+  document.getElementById("seeuRuhe").textContent =
+    JSON.stringify({
+      mode: "CONTINUUM-FLOW",
+      respo: out.respo,
+      meaning: out.meaning,
+      claw: out.claw,
+      frame: out.frame,
+      slide: out.slide,
+      story: out.story
+    }, null, 2);
+}
 
 // ------------------------------------------------------
 // NAEKY
