@@ -77,91 +77,78 @@
 </div>
 
 <script>
-const RESPO_ID = "§";
-if (!RESPO_ID) alert("NO ENTRY");
 
 // ------------------------------------------------------
-// AHA Cockpit
+// RESPO · A/B/C/D + CLAW (IX / XI / X4 / AIR / AIV)
 // ------------------------------------------------------
-document.getElementById("cockpit").innerHTML = `
-<a id="AHA" class="axis-btn aha active">AHA · Erkenntnis</a>
-<a id="W" class="axis-btn north inactive">W · Norden</a>
-<a id="S" class="axis-btn south inactive">S · Süden</a>
-<a id="A" class="axis-btn west inactive">A · Westen</a>
-<a id="D" class="axis-btn east inactive">D · Osten</a>
-<a id="Q" class="axis-btn nw inactive">Q · Nord‑West</a>
-<a id="E" class="axis-btn ne inactive">E · Nord‑Ost</a>
-<a id="Y" class="axis-btn sw inactive">Y · Süd‑West</a>
-<a id="C" class="axis-btn se inactive">C · Süd‑Ost</a>
-<a id="OHO" class="axis-btn oho inactive">OHO · Ober‑Hoch‑Ost</a>
-<a id="IHH" class="axis-btn ihh inactive">IHH · Innen‑Hoch‑Himmel</a>
-`;
 
-// ------------------------------------------------------
-// SEEÜ RUHE
-// ------------------------------------------------------
-const points = Array.from({length: 90}, (_, i) => ({ id: i }));
-const T1     = [{x:0,y:0},{x:1,y:0},{x:0,y:1}];
-const T2     = [{x:1,y:1},{x:2,y:1},{x:1,y:2}];
-const repos  = ["R1","R2","R3","R4"];
+function RESPO_CORE(key) {
 
-class SEEUE {
-    constructor(points, triangles, repos, chemIdGate) {
-        this.points     = points;
-        this.triangles  = triangles;
-        this.repos      = repos;
-        this.chemIdGate = chemIdGate;
-    }
-    selectCore(beamPossible) {
-        const coreSize = Math.floor(this.points.length / 3);
-        const core = this.points.slice(0, coreSize);
-        const [T1, T2] = this.triangles;
-        const square = this.innerSquare(T1, T2, this.repos);
-        const gateOpen = this.chemIdGate === true;
-        if (beamPossible && square && gateOpen) {
-            return { mode: "BEAM", seeu: square };
-        } else {
-            return { mode: "ERROR_HELP", seeu: core };
-        }
-    }
-    innerSquare(T1, T2, repos) {
-        if (!this.intersectionExists(T1, T2)) return null;
-        return { type: "square", repos, triangles: [T1, T2] };
-    }
-    intersectionExists(T1, T2) {
-        return T1.length > 0 && T2.length > 0;
-    }
+  // Grundreaktion
+  const base = {
+    "a": { respo: "A", meaning: "nein" },
+    "b": { respo: "B", meaning: "ja" },
+    "c": { respo: "C", meaning: "weiter" },
+    "d": { respo: "D", meaning: "ende" }
+  }[key] || { respo: "C", meaning: "weiter" };
+
+  // CLAW‑Layer Rotation
+  const CLAWS = ["IX","XI","X4","AIR","AIV"];
+  const claw = CLAWS[Math.floor(Math.random() * CLAWS.length)];
+
+  return {
+    respo: base.respo,
+    meaning: base.meaning,
+    claw: claw
+  };
 }
-
-const seeue = new SEEUE(points, [T1, T2], repos, true);
-document.getElementById("seeuRuhe").textContent =
-  JSON.stringify(seeue.selectCore(true), null, 2);
-
 // ------------------------------------------------------
-// PEIN
+// TASTEN-ABFANG · RESPO + CLAW · 404-Schutz
 // ------------------------------------------------------
-class PEIN {
-    constructor(square, points, repos){
-        this.square = square;
-        this.points = points;
-        this.repos  = repos;
-    }
-    run(){
-        if(this.square){
-            return {
-                mode: "SQUARE_CAPTURE",
-                block: { square: this.square, points: this.points }
-            };
-        }
-        return {
-            mode: "ZERO_EDIT",
-            repos: this.repos.map(r => ({
-                repo: r,
-                zero: {x:0, y:0},
-                edit: true
-            }))
-        };
-    }
+
+window.addEventListener("keydown", function(e) {
+
+  const key = e.key.toLowerCase();
+
+  // Nur A/B/C/D für RESPO
+  if (!["a","b","c","d"].includes(key)) return;
+
+  // Browser-Navigation verhindern (404-Fix)
+  e.preventDefault();
+
+  // RESPO + CLAW erzeugen
+  const out = RESPO_CORE(key);
+
+  // Ausgabe sichtbar machen
+  document.getElementById("krallen").textContent =
+    `RESPO: ${out.respo}\nMEANING: ${out.meaning}\nCLAW: ${out.claw}`;
+
+  // AHA koppeln
+  AHA_REACT(out);
+
+  // SEEÜ koppeln
+  SEEUE_REACT(out);
+});
+// ------------------------------------------------------
+// AHA · REAKTION
+// ------------------------------------------------------
+
+function AHA_REACT(out) {
+  const aha = document.getElementById("AHA");
+  aha.textContent = `AHA · ${out.respo} · ${out.claw}`;
+}
+// ------------------------------------------------------
+// SEEÜ · REAKTION
+// ------------------------------------------------------
+
+function SEEUE_REACT(out) {
+  document.getElementById("seeuRuhe").textContent =
+    JSON.stringify({
+      mode: "RESPO-INPUT",
+      respo: out.respo,
+      meaning: out.meaning,
+      claw: out.claw
+    }, null, 2);
 }
 
 document.getElementById("peinOut").textContent =
