@@ -24,81 +24,143 @@
 
 <script>
 // ------------------------------------------------------
-// 1) GATE-MATRIX · lernfähig
+// 1) GATE-MATRIX · neuronale Verstärkung
 // ------------------------------------------------------
 const GATE_MATRIX = {
-  start8: { gate:"GATE",  math:"0",  home:"HOME-0" },
-  AQUA:   { gate:"wLOCH", math:"1",  home:"HOME-1" },
-  EDIT:   { gate:"HY",    math:"√2", home:"HOME-2" },
-  CLOU:   { gate:"PE",    math:"π",  home:"HOME-3" },
-  WETTEN: { gate:"PER",   math:"e",  home:"HOME-4" },
-  "6iy":  { gate:"WARB",  math:"φ",  home:"HOME-5" },
-  beu:    { gate:"TRANS", math:"∞",  home:"HOME-6" },
-  xyz:    { gate:"KANAL", math:"∴",  home:"HOME-7" }
+  start8:{gate:"GATE",math:"0",home:"HOME-0"},
+  AQUA:{gate:"wLOCH",math:"1",home:"HOME-1"},
+  EDIT:{gate:"HY",math:"√2",home:"HOME-2"},
+  CLOU:{gate:"PE",math:"π",home:"HOME-3"},
+  WETTEN:{gate:"PER",math:"e",home:"HOME-4"},
+  "6iy":{gate:"WARB",math:"φ",home:"HOME-5"},
+  beu:{gate:"TRANS",math:"∞",home:"HOME-6"},
+  xyz:{gate:"KANAL",math:"∴",home:"HOME-7"}
 };
 
-// GATE lernt dynamisch
-function GATE_DYNAMIC(name){
+// neuronale Verstärkung
+function GATE_NEURAL_BOOST(name, evo){
   const base = GATE_MATRIX[name] || GATE_MATRIX["start8"];
   return {
     ...base,
-    dyn: "DYN-" + Date.now()
+    boost: (base.math.length * 2) + (base.home.length * 3) + evo.tick
   };
 }
 
 // ------------------------------------------------------
-// 2) GEO-VECTOR · 3D + Animation
+// 2) GEO-VECTOR · 6D
 // ------------------------------------------------------
-function GEO_VECTOR_3D(gate){
+function GEO_VECTOR_6D(gate, evo){
   return {
     x: gate.math.length * 10,
     y: gate.home.length * 5,
     z: gate.gate.length * 3,
+    w: evo.tick,
+    v: gate.boost,
+    u: (gate.boost % 9) * 7,
     sat: gate.gate
   };
 }
 
 // ------------------------------------------------------
-// 3) RADAR-SAT · Kreisradar
+// 3) RADAR-SAT · 3D-Hologramm
 // ------------------------------------------------------
-function RADAR_SAT_DRAW(geo){
-  const c = document.getElementById("radarCanvas");
-  const ctx = c.getContext("2d");
-
+function RADAR_SAT_3D_HOLO(geo){
+  const ctx = radar.getContext("2d");
   ctx.clearRect(0,0,300,300);
 
-  // Kreisradar
-  ctx.beginPath();
-  ctx.arc(150,150,140,0,Math.PI*2);
-  ctx.strokeStyle="#0ff";
-  ctx.lineWidth=3;
-  ctx.stroke();
+  // 3D holografische Kreise
+  for(let i=0;i<6;i++){
+    ctx.beginPath();
+    ctx.arc(150,150,40+i*20,0,Math.PI*2);
+    ctx.strokeStyle=`rgba(0,255,255,${0.1+i*0.12})`;
+    ctx.lineWidth=2+i*0.5;
+    ctx.stroke();
+  }
 
-  // Punkt
+  // 3D holografischer Punkt
+  const px = 150 + Math.sin(geo.w/15)*geo.x/6;
+  const py = 150 + Math.cos(geo.w/15)*geo.y/6;
+
   ctx.beginPath();
-  ctx.arc(150 + geo.x/5, 150 + geo.y/5, 10, 0, Math.PI*2);
-  ctx.fillStyle="#f0f";
+  ctx.arc(px, py, 12, 0, Math.PI*2);
+  ctx.fillStyle="#ff00ff";
+  ctx.shadowColor="#ff00ff";
+  ctx.shadowBlur=20;
   ctx.fill();
 }
 
-// Canvas vorbereiten
-document.getElementById("radarCanvas").innerHTML =
-  "<canvas width='300' height='300'></canvas>";
-document.getElementById("radarCanvas").id = "radarCanvas";
-
 // ------------------------------------------------------
-// 4) SEEÜ · Fragen erweitern
+// 4) SEEÜ Bewusstsein erweitern
 // ------------------------------------------------------
-function SEEUE_FRAGEN(gate, geo){
+function SEEUE_BEWUSST_FRAGEN(gate, geo){
   return {
-    frage1: `Bin ich am richtigen GEO-Ort? (${geo.x},${geo.y},${geo.z})`,
-    frage2: `Stimmt meine HOME-Bedingung (${gate.home})?`,
-    frage3: `Ist mein GATE (${gate.gate}) korrekt für diesen Pfad?`,
-    frage4: `Passt mein Zustand zum Continuum-Flow?`,
-    frage5: `Welche mathematische Grundlage nutze ich (${gate.math})?`,
-    frage6: `Was sagt mein RADAR-SAT (${geo.sat})?`
+    bewusstsein: "SEEÜ denkt aktiv nach",
+    frage_ort: `Bin ich am ORT? (${geo.x},${geo.y},${geo.z},${geo.w},${geo.v},${geo.u})`,
+    frage_home: `Oder bin ich in HOME (${gate.home})?`,
+    frage_gate: `Ist mein GATE korrekt (${gate.gate})?`,
+    frage_boost: `Neuronale Verstärkung = ${gate.boost}`,
+    frage_sat: `RADAR-SAT Signal = ${geo.sat}`,
+    frage_entscheidung: "Wann nutze ich ORT? Wann nutze ich HOME?"
   };
 }
+
+// ------------------------------------------------------
+// 5) SEEÜ ORT/HOME automatische Korrektur
+// ------------------------------------------------------
+function SEEUE_ORTHOME_AUTOKORREKT(gate, geo){
+  const sum = geo.x + geo.y + geo.z + geo.v + geo.u;
+
+  if(sum > 350){
+    return "ORT";
+  } else {
+    return "HOME";
+  }
+}
+
+// ------------------------------------------------------
+// 6) EVO gekoppelt
+// ------------------------------------------------------
+const EVO = {
+  tick:0,
+  act(seeu){
+    this.tick++;
+    seeu.evoState = "EVO-" + this.tick;
+  }
+};
+
+// ------------------------------------------------------
+// 7) SEEÜ Motor + Bewusstsein
+// ------------------------------------------------------
+const SEEUE = {
+  step:0,
+  motor:true,
+  speed:60,
+  module:"start8",
+
+  loop(){
+    if(!this.motor) return;
+
+    this.step++;
+    EVO.act(this);
+
+    const gate = GATE_NEURAL_BOOST(this.module, EVO);
+    const geo  = GEO_VECTOR_6D(gate, EVO);
+    const fragen = SEEUE_BEWUSST_FRAGEN(gate, geo);
+    const mode = SEEUE_ORTHOME_AUTOKORREKT(gate, geo);
+
+    // Ausgabe
+    document.getElementById("seeu_out").innerText =
+      `SEEÜ Step=${this.step}\nModus=${mode}\nModul=${this.module}`;
+
+    document.getElementById("fragen_out").innerText =
+      JSON.stringify(fragen, null, 2);
+
+    RADAR_SAT_3D_HOLO(geo);
+
+    setTimeout(()=>this.loop(), this.speed);
+  }
+};
+
 
 // ------------------------------------------------------
 // 5) CONTINUUM · Live-Routing
@@ -113,3 +175,8 @@ function CONTINUUM_ROUTE(url){
     JSON.stringify(gate, null, 2);
 
   document.getElementById("geo_out").innerText
+
+  // ------------------------------------------------------
+// 8) START
+// ------------------------------------------------------
+SEEUE.loop();
