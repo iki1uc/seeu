@@ -2,118 +2,114 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>SEEÜ · EVO · PREFETCH · CONTINUUM</title>
-
-<!-- PREFETCH-LINKS -->
-<link rel="prefetch" href="https://iki1uc.github.io/AQUA/AQUA.static.yml">
-<link rel="prefetch" href="https://iki1uc.github.io/EDIT/EDIT.static.yml">
-<link rel="prefetch" href="https://iki1uc.github.io/CLOU/CLOU.static.yml">
-<link rel="prefetch" href="https://iki1uc.github.io/WETTEN/WETTEN.static.yml">
-<link rel="prefetch" href="https://iki1uc.github.io/6iy/6iy.static.yml">
-<link rel="prefetch" href="https://iki1uc.github.io/beu/beu.static.yml">
-<link rel="prefetch" href="https://iki1uc.github.io/xyz/xyz.static.yml">
+<title>SEEÜ · EVO · GATE · RADAR · GEO · CONTINUUM</title>
 
 <style>
   body { background:#000; color:#fff; font-family:Consolas; padding:20px; }
+  #radarCanvas { width:300px; height:300px; background:#111; border-radius:50%; border:3px solid #0ff; margin-top:20px; }
   pre { background:#111; padding:10px; border-left:4px solid #0ff; }
 </style>
 </head>
 
 <body>
 
-<h1>SEEÜ · EVO · PREFETCH · CONTINUUM</h1>
+<h1>SEEÜ · EVO · GATE · RADAR · GEO · CONTINUUM</h1>
 
-<pre id="prefetch_out"></pre>
+<div id="radarCanvas"></div>
+
+<pre id="gate_out"></pre>
+<pre id="geo_out"></pre>
 <pre id="seeu_out"></pre>
-<pre id="evo_out"></pre>
-<pre id="motor_out"></pre>
+<pre id="fragen_out"></pre>
 
 <script>
 // ------------------------------------------------------
-// 1) PREFETCH · CORE
+// 1) GATE-MATRIX · lernfähig
 // ------------------------------------------------------
-async function prefetch(url) {
-  try {
-    const res = await fetch(url, { cache: "force-cache" });
-    return await res.text();
-  } catch (e) {
-    return null;
-  }
-}
-
-const PREFETCH_LIST = [
-  "https://iki1uc.github.io/AQUA/AQUA.static.yml",
-  "https://iki1uc.github.io/EDIT/EDIT.static.yml",
-  "https://iki1uc.github.io/CLOU/CLOU.static.yml",
-  "https://iki1uc.github.io/WETTEN/WETTEN.static.yml",
-  "https://iki1uc.github.io/6iy/6iy.static.yml",
-  "https://iki1uc.github.io/beu/beu.static.yml",
-  "https://iki1uc.github.io/xyz/xyz.static.yml"
-];
-
-async function PREFETCH_ALL() {
-  const out = {};
-  for (const url of PREFETCH_LIST) {
-    out[url] = await prefetch(url);
-  }
-  document.getElementById("prefetch_out").innerText =
-    JSON.stringify(out, null, 2);
-  return out;
-}
-
-// ------------------------------------------------------
-// 2) SEEÜ · MOTOR · PREFETCH-MODUS
-// ------------------------------------------------------
-const SEEUE = {
-  step: 0,
-  motor: false,
-
-  start() {
-    this.motor = true;
-    this.loop();
-  },
-
-  stop() {
-    this.motor = false;
-  },
-
-  loop() {
-    if (!this.motor) return;
-    this.step++;
-    document.getElementById("motor_out").innerText =
-      "SEEÜ Motor Step: " + this.step;
-    setTimeout(() => this.loop(), 200);
-  }
+const GATE_MATRIX = {
+  start8: { gate:"GATE",  math:"0",  home:"HOME-0" },
+  AQUA:   { gate:"wLOCH", math:"1",  home:"HOME-1" },
+  EDIT:   { gate:"HY",    math:"√2", home:"HOME-2" },
+  CLOU:   { gate:"PE",    math:"π",  home:"HOME-3" },
+  WETTEN: { gate:"PER",   math:"e",  home:"HOME-4" },
+  "6iy":  { gate:"WARB",  math:"φ",  home:"HOME-5" },
+  beu:    { gate:"TRANS", math:"∞",  home:"HOME-6" },
+  xyz:    { gate:"KANAL", math:"∴",  home:"HOME-7" }
 };
 
-// ------------------------------------------------------
-// 3) EVO · AKTEUR
-// ------------------------------------------------------
-const EVO = {
-  state: "INIT",
-  act(step) {
-    this.state = "EVO@" + step;
-    document.getElementById("evo_out").innerText =
-      "EVO Zustand: " + this.state;
-  }
-};
-
-// ------------------------------------------------------
-// 4) CONTINUUM · MINIMAL
-// ------------------------------------------------------
-async function CONTINUUM() {
-  const pf = await PREFETCH_ALL();
-  SEEUE.start();
-
-  setInterval(() => {
-    EVO.act(SEEUE.step);
-    document.getElementById("seeu_out").innerText =
-      "SEEÜ Step: " + SEEUE.step;
-  }, 300);
+// GATE lernt dynamisch
+function GATE_DYNAMIC(name){
+  const base = GATE_MATRIX[name] || GATE_MATRIX["start8"];
+  return {
+    ...base,
+    dyn: "DYN-" + Date.now()
+  };
 }
 
-CONTINUUM();
-</script>
+// ------------------------------------------------------
+// 2) GEO-VECTOR · 3D + Animation
+// ------------------------------------------------------
+function GEO_VECTOR_3D(gate){
+  return {
+    x: gate.math.length * 10,
+    y: gate.home.length * 5,
+    z: gate.gate.length * 3,
+    sat: gate.gate
+  };
+}
 
-</body>
-</html>
+// ------------------------------------------------------
+// 3) RADAR-SAT · Kreisradar
+// ------------------------------------------------------
+function RADAR_SAT_DRAW(geo){
+  const c = document.getElementById("radarCanvas");
+  const ctx = c.getContext("2d");
+
+  ctx.clearRect(0,0,300,300);
+
+  // Kreisradar
+  ctx.beginPath();
+  ctx.arc(150,150,140,0,Math.PI*2);
+  ctx.strokeStyle="#0ff";
+  ctx.lineWidth=3;
+  ctx.stroke();
+
+  // Punkt
+  ctx.beginPath();
+  ctx.arc(150 + geo.x/5, 150 + geo.y/5, 10, 0, Math.PI*2);
+  ctx.fillStyle="#f0f";
+  ctx.fill();
+}
+
+// Canvas vorbereiten
+document.getElementById("radarCanvas").innerHTML =
+  "<canvas width='300' height='300'></canvas>";
+document.getElementById("radarCanvas").id = "radarCanvas";
+
+// ------------------------------------------------------
+// 4) SEEÜ · Fragen erweitern
+// ------------------------------------------------------
+function SEEUE_FRAGEN(gate, geo){
+  return {
+    frage1: `Bin ich am richtigen GEO-Ort? (${geo.x},${geo.y},${geo.z})`,
+    frage2: `Stimmt meine HOME-Bedingung (${gate.home})?`,
+    frage3: `Ist mein GATE (${gate.gate}) korrekt für diesen Pfad?`,
+    frage4: `Passt mein Zustand zum Continuum-Flow?`,
+    frage5: `Welche mathematische Grundlage nutze ich (${gate.math})?`,
+    frage6: `Was sagt mein RADAR-SAT (${geo.sat})?`
+  };
+}
+
+// ------------------------------------------------------
+// 5) CONTINUUM · Live-Routing
+// ------------------------------------------------------
+function CONTINUUM_ROUTE(url){
+  const name = url.split("/")[3].split(".")[0];
+  const gate = GATE_DYNAMIC(name);
+  const geo  = GEO_VECTOR_3D(gate);
+  const fragen = SEEUE_FRAGEN(gate, geo);
+
+  document.getElementById("gate_out").innerText =
+    JSON.stringify(gate, null, 2);
+
+  document.getElementById("geo_out").innerText
