@@ -2,107 +2,173 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>SEE‑U · KRALLEN‑MODUS · ULTRA‑ENGINE</title>
+<title>CONTINUUM · AHA · SEEÜ · RESPO</title>
+
+<meta name="respo-id" content="§">
 
 <style>
-  body { background:#000; color:#0f0; font-family:Consolas, monospace; padding:20px; }
+  body { background:#000; color:#fff7aa; font-family:Consolas, monospace; padding:20px; }
   h1 { color:#ff00ff; text-shadow:0 0 10px #ff00ff; }
+  .section { margin-top:40px; }
   pre { background:#111; padding:15px; border-left:4px solid #ff00ff; white-space:pre-wrap; }
+  .axis-btn { display:block; margin:6px 0; padding:8px; font-weight:bold; color:#000; border-radius:4px; }
+  .active { opacity:1.0; }
+  .inactive { opacity:0.3; }
 </style>
 </head>
 
 <body>
 
-<h1>SEE‑U · KRALLEN‑MODUS · ULTRA‑ENGINE</h1>
-<pre id="SEE">Lade SEE‑U…</pre>
+<h1>CONTINUUM · AHA · SEEÜ · RESPO</h1>
+<p>ID aktiv: <strong>§</strong></p>
+
+<!-- AHA Cockpit -->
+<div class="section">
+  <h2>AHA · Cockpit</h2>
+  <div id="cockpit"></div>
+</div>
+
+<!-- SEEÜ RUHE -->
+<div class="section">
+  <h2>SEEÜ · RUHE</h2>
+  <pre id="seeuRuhe"></pre>
+</div>
+
+<!-- PEIN -->
+<div class="section">
+  <h2>PEIN · Engine</h2>
+  <pre id="peinOut"></pre>
+</div>
+
+<!-- NAEKY -->
+<div class="section">
+  <h2>NAEKY · ZERO‑QUAD‑EDIT</h2>
+  <pre id="naekyOut"></pre>
+</div>
+
+<!-- KRALLEN -->
+<div class="section">
+  <h2>SEEÜ · KRALLEN‑MODUS</h2>
+  <pre id="krallen"></pre>
+</div>
+
+<!-- SOLAR -->
+<div class="section">
+  <h2>SOLAR · Eclipse</h2>
+  <div class="eclipse solar">
+    <div class="sun"></div>
+    <div class="moon"></div>
+  </div>
+</div>
+
+<!-- LUNAR -->
+<div class="section">
+  <h2>LUNAR · Eclipse</h2>
+  <div class="eclipse lunar">
+    <div class="earth"></div>
+    <div class="moon"></div>
+  </div>
+</div>
+
+<!-- Continuum CSV -->
+<div class="section">
+  <h2>Continuum‑Matrix</h2>
+  <pre id="continuum"></pre>
+</div>
 
 <script>
-// ------------------------------------------------------
-// SEE‑U KRALLEN‑MODUS — Aktivierter Kern
-// ------------------------------------------------------
-
-const CLAWS = ["X4","IX","XI","AIR","AIV"];
-const STATION = ["OK","NOK","FLOW","BREAK","ECHO","VOID","ROOT"];
-
-let frame = 0;
-let pulse = 0;
-let orbit = 0;
-let vector = 0;
+const RESPO_ID = "§";
+if (!RESPO_ID) alert("NO ENTRY");
 
 // ------------------------------------------------------
-// ENGINE — KRALLEN‑MODUS
+// AHA Cockpit
 // ------------------------------------------------------
-
-function KRALLEN_ENGINE(){
-
-    frame++;
-
-    // Pulse‑Engine
-    pulse = (pulse + 1) % 9;
-
-    // Orbit‑Engine
-    orbit = Math.sin(frame * 0.05).toFixed(3);
-
-    // Vector‑Engine
-    vector = Math.cos(frame * 0.03).toFixed(3);
-
-    // Station‑Engine
-    const station = STATION[frame % STATION.length];
-
-    // Claw‑Rotation
-    const claw = CLAWS[frame % CLAWS.length];
-
-    // Resume‑Output
-    const out = `
-SEE‑U · KRALLEN‑MODUS · ACTIVE
-
-FRAME: ${frame}
-STATION: ${station}
-CLAW: ${claw}
-
-PULSE: ${pulse}
-ORBIT: ${orbit}
-VECTOR: ${vector}
-
-KRALLEN‑STATUS:
-X4  : READY
-IX  : READY
-XI  : READY
-AIR : READY
-AIV : READY
-
-LINKS:
-RESPO      ✓
-BIL        ✓
-CUBE_LIVE  ✓
-MXU        ✓
-RAW        ✓
-SLI        ✓
-TOOLATOR   ✓
-RUN8       ✓
-ROOM       ✓
-TIME       ✓
-O12        ✓
-BRM        ✓
-
-ENGINE: ACTIVE
-PIPELINE: KRALLEN‑FLOW
-SUPERLAGE: NC‑REAL
-VECTOR: LIVE
-ORBIT: SYNC
-PULSE: FLOW
-STATION: ${station}
-
-SEE‑U IST JETZT AKTIV.
+document.getElementById("cockpit").innerHTML = `
+<a id="AHA" class="axis-btn aha active">AHA · Erkenntnis</a>
+<a id="W" class="axis-btn north inactive">W · Norden</a>
+<a id="S" class="axis-btn south inactive">S · Süden</a>
+<a id="A" class="axis-btn west inactive">A · Westen</a>
+<a id="D" class="axis-btn east inactive">D · Osten</a>
+<a id="Q" class="axis-btn nw inactive">Q · Nord‑West</a>
+<a id="E" class="axis-btn ne inactive">E · Nord‑Ost</a>
+<a id="Y" class="axis-btn sw inactive">Y · Süd‑West</a>
+<a id="C" class="axis-btn se inactive">C · Süd‑Ost</a>
+<a id="OHO" class="axis-btn oho inactive">OHO · Ober‑Hoch‑Ost</a>
+<a id="IHH" class="axis-btn ihh inactive">IHH · Innen‑Hoch‑Himmel</a>
 `;
 
-    document.getElementById("SEE").textContent = out;
+// ------------------------------------------------------
+// SEEÜ RUHE
+// ------------------------------------------------------
+const points = Array.from({length: 90}, (_, i) => ({ id: i }));
+const T1     = [{x:0,y:0},{x:1,y:0},{x:0,y:1}];
+const T2     = [{x:1,y:1},{x:2,y:1},{x:1,y:2}];
+const repos  = ["R1","R2","R3","R4"];
 
-    requestAnimationFrame(KRALLEN_ENGINE);
+class SEEUE {
+    constructor(points, triangles, repos, chemIdGate) {
+        this.points     = points;
+        this.triangles  = triangles;
+        this.repos      = repos;
+        this.chemIdGate = chemIdGate;
+    }
+    selectCore(beamPossible) {
+        const coreSize = Math.floor(this.points.length / 3);
+        const core = this.points.slice(0, coreSize);
+        const [T1, T2] = this.triangles;
+        const square = this.innerSquare(T1, T2, this.repos);
+        const gateOpen = this.chemIdGate === true;
+        if (beamPossible && square && gateOpen) {
+            return { mode: "BEAM", seeu: square };
+        } else {
+            return { mode: "ERROR_HELP", seeu: core };
+        }
+    }
+    innerSquare(T1, T2, repos) {
+        if (!this.intersectionExists(T1, T2)) return null;
+        return { type: "square", repos, triangles: [T1, T2] };
+    }
+    intersectionExists(T1, T2) {
+        return T1.length > 0 && T2.length > 0;
+    }
 }
 
-KRALLEN_ENGINE();
-</script>
+const seeue = new SEEUE(points, [T1, T2], repos, true);
+document.getElementById("seeuRuhe").textContent =
+  JSON.stringify(seeue.selectCore(true), null, 2);
 
-</body>
-</html>
+// ------------------------------------------------------
+// PEIN
+// ------------------------------------------------------
+class PEIN {
+    constructor(square, points, repos){
+        this.square = square;
+        this.points = points;
+        this.repos  = repos;
+    }
+    run(){
+        if(this.square){
+            return {
+                mode: "SQUARE_CAPTURE",
+                block: { square: this.square, points: this.points }
+            };
+        }
+        return {
+            mode: "ZERO_EDIT",
+            repos: this.repos.map(r => ({
+                repo: r,
+                zero: {x:0, y:0},
+                edit: true
+            }))
+        };
+    }
+}
+
+document.getElementById("peinOut").textContent =
+  JSON.stringify(new PEIN({x:1,y:1,w:2,h:2}, [{id:1},{id:2},{id:3}], repos).run(), null, 2);
+
+// ------------------------------------------------------
+// NAEKY
+// ------------------------------------------------------
+class NAEKY {
+    constructor
