@@ -9,6 +9,26 @@
   #radarCanvas { width:300px; height:300px; margin-top:20px; }
   pre { background:#111; padding:10px; border-left:4px solid #0ff; }
 </style>
+
+<!-- KOOP: Prefetch Achsen -->
+<script type="module" src="./arg.preload.js"></script>
+<script type="module" src="./arg.fetch.js"></script>
+<script type="module" src="./arg.root.js"></script>
+
+<!-- KOOP: Impuls-Achse -->
+<script type="module" src="./arg.core.js"></script>
+<script type="module" src="./arg.tool.js"></script>
+<script type="module" src="./arg.test.js"></script>
+
+<!-- KOOP: Bewusstseins-Achse -->
+<script type="module" src="./xarg.seeu.js"></script>
+<script type="module" src="./xarg.evo.js"></script>
+
+<!-- KOOP: Raum-Achse -->
+<script type="module" src="./arg3.gate.js"></script>
+<script type="module" src="./arg3.geo.js"></script>
+<script type="module" src="./arg3.radar.js"></script>
+
 </head>
 
 <body>
@@ -22,114 +42,23 @@
 <pre id="seeu_out"></pre>
 <pre id="fragen_out"></pre>
 
-<script>
-// ------------------------------------------------------
-// 1) GATE-MATRIX · neuronale Verstärkung
-// ------------------------------------------------------
-const GATE_MATRIX = {
-  start8:{gate:"GATE",math:"0",home:"HOME-0"},
-  AQUA:{gate:"wLOCH",math:"1",home:"HOME-1"},
-  EDIT:{gate:"HY",math:"√2",home:"HOME-2"},
-  CLOU:{gate:"PE",math:"π",home:"HOME-3"},
-  WETTEN:{gate:"PER",math:"e",home:"HOME-4"},
-  "6iy":{gate:"WARB",math:"φ",home:"HOME-5"},
-  beu:{gate:"TRANS",math:"∞",home:"HOME-6"},
-  xyz:{gate:"KANAL",math:"∴",home:"HOME-7"}
-};
+<script type="module">
 
-function GATE_NEURAL_BOOST(name, evo){
-  const base = GATE_MATRIX[name] || GATE_MATRIX["start8"];
-  return {
-    ...base,
-    boost: (base.math.length * 2) + (base.home.length * 3) + evo.tick
-  };
-}
+import { GATE_MATRIX, GATE_NEURAL_BOOST } from "./arg3.gate.js";
+import { GEO_VECTOR_6D } from "./arg3.geo.js";
+import { RADAR_SAT_3D_HOLO } from "./arg3.radar.js";
+import { EVO } from "./xarg.evo.js";
+import { SEEUE_CORE } from "./xarg.seeu.js";
 
 // ------------------------------------------------------
-// 2) GEO-VECTOR · 6D
+// SEEÜ Motor (KOOP)
 // ------------------------------------------------------
-function GEO_VECTOR_6D(gate, evo){
-  return {
-    x: gate.math.length * 10,
-    y: gate.home.length * 5,
-    z: gate.gate.length * 3,
-    w: evo.tick,
-    v: gate.boost,
-    u: (gate.boost % 9) * 7,
-    sat: gate.gate
-  };
-}
 
-// ------------------------------------------------------
-// 3) RADAR-SAT · 3D-Hologramm
-// ------------------------------------------------------
-function RADAR_SAT_3D_HOLO(geo){
-  const radar = document.getElementById("radarCanvas");
-  const ctx = radar.getContext("2d");
-
-  ctx.clearRect(0,0,300,300);
-
-  for(let i=0;i<6;i++){
-    ctx.beginPath();
-    ctx.arc(150,150,40+i*20,0,Math.PI*2);
-    ctx.strokeStyle=`rgba(0,255,255,${0.1+i*0.12})`;
-    ctx.lineWidth=2+i*0.5;
-    ctx.stroke();
-  }
-
-  const px = 150 + Math.sin(geo.w/15)*geo.x/6;
-  const py = 150 + Math.cos(geo.w/15)*geo.y/6;
-
-  ctx.beginPath();
-  ctx.arc(px, py, 12, 0, Math.PI*2);
-  ctx.fillStyle="#ff00ff";
-  ctx.shadowColor="#ff00ff";
-  ctx.shadowBlur=20;
-  ctx.fill();
-}
-
-// ------------------------------------------------------
-// 4) SEEÜ Bewusstsein erweitern
-// ------------------------------------------------------
-function SEEUE_BEWUSST_FRAGEN(gate, geo){
-  return {
-    bewusstsein: "SEEÜ denkt aktiv nach",
-    ort: `ORT = (${geo.x},${geo.y},${geo.z},${geo.w},${geo.v},${geo.u})`,
-    home: `HOME = ${gate.home}`,
-    gate: `GATE = ${gate.gate}`,
-    boost: `BOOST = ${gate.boost}`,
-    sat: `SAT = ${geo.sat}`,
-    entscheidung: "Wann nutze ich ORT? Wann nutze ich HOME?"
-  };
-}
-
-// ------------------------------------------------------
-// 5) SEEÜ ORT/HOME automatische Korrektur
-// ------------------------------------------------------
-function SEEUE_ORTHOME_AUTOKORREKT(gate, geo){
-  const sum = geo.x + geo.y + geo.z + geo.v + geo.u;
-  return (sum > 350) ? "ORT" : "HOME";
-}
-
-// ------------------------------------------------------
-// 6) EVO gekoppelt
-// ------------------------------------------------------
-const EVO = {
-  tick:0,
-  act(seeu){
-    this.tick++;
-    seeu.evoState = "EVO-" + this.tick;
-  }
-};
-
-// ------------------------------------------------------
-// 7) SEEÜ Motor + Bewusstsein
-// ------------------------------------------------------
 const SEEUE = {
-  step:0,
-  motor:true,
-  speed:60,
-  module:"start8",
+  step: 0,
+  motor: true,
+  speed: 60,
+  module: "start8",
 
   loop(){
     if(!this.motor) return;
@@ -139,11 +68,10 @@ const SEEUE = {
 
     const gate = GATE_NEURAL_BOOST(this.module, EVO);
     const geo  = GEO_VECTOR_6D(gate, EVO);
-    const fragen = SEEUE_BEWUSST_FRAGEN(gate, geo);
-    const mode = SEEUE_ORTHOME_AUTOKORREKT(gate, geo);
+    const fragen = SEEUE_CORE(gate, geo);
 
     document.getElementById("seeu_out").innerText =
-      `SEEÜ Step=${this.step}\nModus=${mode}\nModul=${this.module}`;
+      `SEEÜ Step=${this.step}\nModul=${this.module}`;
 
     document.getElementById("gate_out").innerText =
       JSON.stringify(gate, null, 2);
@@ -160,10 +88,8 @@ const SEEUE = {
   }
 };
 
-// ------------------------------------------------------
-// 8) START
-// ------------------------------------------------------
 SEEUE.loop();
+
 </script>
 
 </body>
