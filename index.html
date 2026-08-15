@@ -1,96 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>SEEÜ · EVO · GATE · RADAR · GEO · CONTINUUM</title>
-
-<style>
-  body { background:#000; color:#fff; font-family:Consolas; padding:20px; }
-  #radarCanvas { width:300px; height:300px; margin-top:20px; }
-  pre { background:#111; padding:10px; border-left:4px solid #0ff; }
-</style>
-
-<!-- KOOP: Prefetch Achsen -->
-<script type="module" src="./arg.preload.js"></script>
-<script type="module" src="./arg.fetch.js"></script>
-<script type="module" src="./arg.root.js"></script>
-
-<!-- KOOP: Impuls-Achse -->
-<script type="module" src="./arg.core.js"></script>
-<script type="module" src="./arg.tool.js"></script>
-<script type="module" src="./arg.test.js"></script>
-
-<!-- KOOP: Bewusstseins-Achse -->
-<script type="module" src="./xarg.seeu.js"></script>
-<script type="module" src="./xarg.evo.js"></script>
-
-<!-- KOOP: Raum-Achse -->
-<script type="module" src="./arg3.gate.js"></script>
-<script type="module" src="./arg3.geo.js"></script>
-<script type="module" src="./arg3.radar.js"></script>
-
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>WELT Portal – DE System (ALL‑X‑ALL)</title>
+  <style>
+    :root{--bg:#000;--fg:#0f0;--accent:#6cf;--card:#111}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:Consolas,monospace}
+    .wrap{display:grid;grid-template-columns:360px 1fr;gap:12px;height:100vh;padding:12px}
+    .card{background:var(--card);padding:12px;border-left:4px solid var(--accent);border-radius:6px;overflow:auto}
+    header h1{margin:0;color:var(--accent);font-size:18px}
+    #welt-visual-bg{position:relative;height:420px;border-radius:6px;overflow:hidden;background:linear-gradient(180deg,#001,#001a)}
+    #stargate,#water-effect,#hh-cube{position:absolute;left:50%;transform:translateX(-50%);pointer-events:none}
+    #stargate{top:28px;width:260px;height:120px;border:3px solid #6cf;border-radius:140px;box-shadow:0 0 12px rgba(108,204,255,0.08)}
+    #water-effect{bottom:0;width:100%;height:140px;background:linear-gradient(180deg, rgba(0,0,0,0), rgba(0,50,50,0.25));mix-blend-mode:screen;opacity:0.7}
+    #hh-cube{right:20px;top:20px;width:80px;height:80px;background:linear-gradient(90deg,#0f0,#6cf);transform-origin:center;opacity:0.18}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    button{background:var(--accent);color:#000;border:none;padding:8px 10px;border-radius:6px;cursor:pointer;font-weight:700}
+    #portal-screen{min-height:120px;padding:10px;background:#070;border-left:3px solid #6cf;border-radius:4px;margin-top:8px}
+    #fusion-out{white-space:pre-wrap;background:#050;padding:10px;margin-top:8px;border-radius:4px;border:1px solid rgba(108,204,255,0.06);max-height:220px;overflow:auto}
+    canvas{width:100%;height:420px;display:block}
+  </style>
+  <script>
+    // EPOCHE: globale Variablen
+    window.WELT = window.WELT || {};
+    window.WELT_CURRENT_LANGUAGE = "DE";
+    window.WELT_STARTED_AT = Date.now();
+    // module injection store
+    window.WELT._modules = {};
+    window.WELT.setModule = (name,obj) => { window.WELT._modules[name]=obj; console.info('WELT module set:',name); };
+    window.WELT.inject = (fnName, fn) => { window.WELT[fnName] = fn; console.info('WELT injected fn:',fnName); };
+  </script>
 </head>
-
 <body>
+  <div class="wrap">
+    <div class="card">
+      <header><h1>WELT‑Portal • DE</h1><div style="color:#9f9;font-size:13px">CONTINIUM · DE‑System · EDEN</div></header>
 
-<h1>SEEÜ · EVO · GATE · RADAR · GEO · CONTINUUM</h1>
+      <section style="margin-top:10px">
+        <div>
+          <button data-lang="DE">Deutsch</button>
+          <button data-lang="EN">English</button>
+          <button data-lang="TR">Türkçe</button>
+        </div>
+        <div class="controls" style="margin-top:8px">
+          <button id="btnLoadRoom">Load Room</button>
+          <button id="btnBindEden">Bind EDEN</button>
+          <button id="btnBoot">MASTER.boot</button>
+          <select id="persona"><option value="du">du</option><option value="er">er</option><option value="ich">ich</option></select>
+        </div>
+        <div id="portal-screen" aria-live="polite">Lade: DE.room …</div>
+      </section>
 
-<canvas id="radarCanvas" width="300" height="300"></canvas>
+      <section style="margin-top:8px">
+        <div style="font-weight:700">Fusion Output</div>
+        <pre id="fusion-out">–</pre>
+      </section>
+    </div>
 
-<pre id="gate_out"></pre>
-<pre id="geo_out"></pre>
-<pre id="seeu_out"></pre>
-<pre id="fragen_out"></pre>
+    <div class="card">
+      <header><h1>RAUM — Visual</h1></header>
+      <div id="welt-visual-bg">
+        <div id="stargate" aria-hidden="true"></div>
+        <canvas id="welt-canvas"></canvas>
+        <div id="hh-cube" aria-hidden="true"></div>
+        <div id="water-effect" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
 
-<script type="module">
+<script>
+/* --------------------------
+   Core helpers & fallbacks
+   -------------------------- */
+function safe(fn, fallback){
+  try{ return fn(); } catch(e){ console.warn('safe error', e); return fallback; }
+}
+function log(...a){ console.log(...a); }
 
-import { GATE_MATRIX, GATE_NEURAL_BOOST } from "./arg3.gate.js";
-import { GEO_VECTOR_6D } from "./arg3.geo.js";
-import { RADAR_SAT_3D_HOLO } from "./arg3.radar.js";
-import { EVO } from "./xarg.evo.js";
-import { SEEUE_CORE } from "./xarg.seeu.js";
-
-// ------------------------------------------------------
-// SEEÜ Motor (KOOP)
-// ------------------------------------------------------
-
-const SEEUE = {
-  step: 0,
-  motor: true,
-  speed: 60,
-  module: "start8",
-
-  loop(){
-    if(!this.motor) return;
-
-    this.step++;
-    EVO.act(this);
-
-    const gate = GATE_NEURAL_BOOST(this.module, EVO);
-    const geo  = GEO_VECTOR_6D(gate, EVO);
-    const fragen = SEEUE_CORE(gate, geo);
-
-    document.getElementById("seeu_out").innerText =
-      `SEEÜ Step=${this.step}\nModul=${this.module}`;
-
-    document.getElementById("gate_out").innerText =
-      JSON.stringify(gate, null, 2);
-
-    document.getElementById("geo_out").innerText =
-      JSON.stringify(geo, null, 2);
-
-    document.getElementById("fragen_out").innerText =
-      JSON.stringify(fragen, null, 2);
-
-    RADAR_SAT_3D_HOLO(geo);
-
-    setTimeout(()=>this.loop(), this.speed);
-  }
-};
-
-SEEUE.loop();
-
-</script>
-
-</body>
-</html>
+/* ---------- applyOrbit ---------- */
+function applyOrbit(orbit){
+  const stargate = document.getElementById("stargate");
+  const water =*
