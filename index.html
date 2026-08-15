@@ -243,4 +243,31 @@ window.addEventListener('load', ()=> {
 
 /* orbit canvas animation (separate RAF) */
 (function orbitRAF(){
-  const canvas = document.getElementBy*
+  const canvas = document.getElementById('welt-canvas');
+  const ctx = canvas.getContext('2d');
+  function draw(now){
+    const t = now * 0.001;
+    const orbit = WELT_ORBIT_RENDER(t);
+    // apply orbit to DOM
+    applyOrbit(orbit);
+    // draw simple orbit visuals on canvas
+    canvas.width = canvas.clientWidth; canvas.height = canvas.clientHeight;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.save(); ctx.translate(canvas.width/2, 130);
+    ctx.strokeStyle = `rgba(108,204,255,${0.15 + orbit.pulse*0.6})`; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(0,0,110,0,Math.PI*2); ctx.stroke();
+    ctx.restore();
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+/* Public injection helpers (for cross‑repo wiring) */
+window.WELT.setModule('EVO', { act: defaultEVO });
+window.WELT.setModule('GATE', { run: defaultGATE });
+window.WELT.setModule('GEO', { make: defaultGEO });
+window.WELT.setModule('SEEUE', { ask: defaultSEEUE });
+window.WELT.setModule('RADAR', { render: defaultRADAR });
+
+</script>
+</body>
+</html>
