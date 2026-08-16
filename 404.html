@@ -3,17 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>404 · KIMIND‑CORE · ACHSEN-INTERPRETER · LIVE</title>
+<title>ORG-REORG · 7 EBENEN · 3-9-27-81-243-729-2268</title>
 
 <style>
 :root {
     --bg: #0a0a0f;
     --fg: #0f0;
-    --axis: #ff6b6b;
-    --layer: #6b6bff;
-    --field: #ffd93d;
-    --respo: #6cf;
     --gold: #ffd700;
+    --l1: #ff6b6b;   /* 3-BASIS */
+    --l2: #6bff6b;   /* 9-KERN */
+    --l3: #6b6bff;   /* 27-MODULE */
+    --l4: #ffd93d;   /* 81-ENGINE */
+    --l5: #ff44ff;   /* 243-SYSTEM */
+    --l6: #6cf;      /* 729-START */
+    --l7: #ff8c00;   /* 2268-UFO */
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -21,10 +24,11 @@ body {
     color: var(--fg);
     font-family: 'Consolas', monospace;
     min-height: 100vh;
+    overflow: hidden;
     display: grid;
     grid-template-rows: auto 1fr auto;
-    gap: 6px;
-    padding: 12px;
+    gap: 4px;
+    padding: 8px;
 }
 
 header {
@@ -32,24 +36,23 @@ header {
     justify-content: space-between;
     align-items: center;
     border-bottom: 2px solid var(--gold);
-    padding-bottom: 6px;
+    padding-bottom: 4px;
     flex-wrap: wrap;
     gap: 4px;
 }
 header h1 {
-    font-size: 16px;
+    font-size: 13px;
     color: var(--gold);
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }
-header h1 .kim { color: var(--axis); }
-header h1 .core { color: var(--layer); }
-header h1 .live { color: var(--field); }
-#info-bar { font-size: 10px; color: #666; display: flex; gap: 10px; align-items: center; }
+header h1 .reorg { color: var(--l1); }
+header h1 .ufo { color: var(--l7); }
+#info-bar { font-size: 8px; color: #666; display: flex; gap: 6px; align-items: center; }
 
 main {
     display: grid;
     grid-template-columns: 3fr 1.2fr;
-    gap: 8px;
+    gap: 4px;
     height: 100%;
     min-height: 0;
 }
@@ -57,123 +60,102 @@ main {
 #canvas-wrap {
     background: #0a0a0f;
     border: 1px solid #1a1a2a;
-    border-radius: 10px;
-    padding: 6px;
+    border-radius: 8px;
+    padding: 4px;
     position: relative;
     overflow: hidden;
 }
 #canvas-wrap canvas {
     width: 100%;
     height: 100%;
-    border-radius: 6px;
+    border-radius: 4px;
     display: block;
 }
 
 #panel {
     background: #0a0a0f;
     border: 1px solid #1a1a2a;
-    border-radius: 10px;
-    padding: 8px;
+    border-radius: 8px;
+    padding: 4px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
     overflow-y: auto;
     max-height: 100%;
+    font-size: 8px;
 }
-#panel h3 { font-size: 10px; color: #666; border-bottom: 1px solid #1a1a2a; padding-bottom: 4px; }
+#panel h3 { font-size: 8px; color: #666; border-bottom: 1px solid #1a1a2a; padding-bottom: 2px; }
 
 #log {
     flex: 1;
     overflow-y: auto;
-    font-size: 8px;
+    font-size: 7px;
     color: #6a6a8a;
-    line-height: 1.3;
-    min-height: 40px;
-    max-height: 100px;
+    line-height: 1.2;
+    min-height: 30px;
+    max-height: 60px;
     background: #06060a;
-    border-radius: 4px;
-    padding: 3px 5px;
+    border-radius: 3px;
+    padding: 2px 4px;
 }
 #log .entry { padding: 1px 0; border-bottom: 1px solid #0a0a12; }
 #log .time { color: #444; }
-#log .msg.axis { color: var(--axis); }
-#log .msg.respo { color: var(--respo); }
 #log .msg.ok { color: #4f4; }
-#log .msg.err { color: #f44; }
+#log .msg.l1 { color: var(--l1); }
+#log .msg.l2 { color: var(--l2); }
+#log .msg.l3 { color: var(--l3); }
+#log .msg.l4 { color: var(--l4); }
+#log .msg.l5 { color: var(--l5); }
+#log .msg.l6 { color: var(--l6); }
+#log .msg.l7 { color: var(--l7); }
 
 #metrics {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 3px;
-    font-size: 8px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 2px;
 }
 .metric {
     background: #0e0e1a;
-    border-radius: 4px;
-    padding: 4px 6px;
+    border-radius: 3px;
+    padding: 2px 3px;
     text-align: center;
     border: 1px solid #1a1a2a;
 }
-.metric .label { color: #666; font-size: 7px; text-transform: uppercase; }
-.metric .value { font-size: 13px; font-weight: bold; }
-.metric.axis .value { color: var(--axis); }
-.metric.respo .value { color: var(--respo); }
-.metric.status .value { color: var(--gold); }
+.metric .label { color: #666; font-size: 5px; text-transform: uppercase; }
+.metric .value { font-size: 9px; font-weight: bold; }
+.metric.l1 .value { color: var(--l1); }
+.metric.l2 .value { color: var(--l2); }
+.metric.l3 .value { color: var(--l3); }
+.metric.l4 .value { color: var(--l4); }
 
 #controls {
     display: flex;
-    gap: 3px;
+    gap: 2px;
     flex-wrap: wrap;
-    margin-top: 4px;
 }
 button {
     background: #111;
     color: var(--fg);
     border: 1px solid #333;
-    padding: 3px 10px;
-    border-radius: 4px;
+    padding: 2px 6px;
+    border-radius: 2px;
     cursor: pointer;
     font-family: inherit;
-    font-size: 8px;
+    font-size: 7px;
     transition: all 0.2s;
 }
 button:hover { background: #1a1a2a; border-color: var(--gold); }
 button:active { transform: scale(0.95); }
 button.primary { border-color: var(--gold); color: var(--gold); }
 button.primary:hover { background: var(--gold); color: #000; }
-button.axis { border-color: var(--axis); color: var(--axis); }
-button.axis:hover { background: var(--axis); color: #000; }
-button.respo { border-color: var(--respo); color: var(--respo); }
-button.respo:hover { background: var(--respo); color: #000; }
+button.reorg { border-color: var(--l1); color: var(--l1); }
+button.reorg:hover { background: var(--l1); color: #000; }
 button.danger { border-color: #f44; color: #f44; }
 button.danger:hover { background: #f44; color: #000; }
 
-/* Input-Felder für Achsen */
-.axis-input {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 4px;
-    font-size: 8px;
-}
-.axis-input input {
-    background: #111;
-    color: var(--fg);
-    border: 1px solid #333;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-family: inherit;
-    font-size: 9px;
-    width: 100%;
-}
-.axis-input label {
-    color: #666;
-    font-size: 7px;
-    text-transform: uppercase;
-}
-
 @media (max-width: 800px) {
     main { grid-template-columns: 1fr; }
-    #panel { max-height: 200px; }
+    #panel { max-height: 180px; }
 }
 </style>
 </head>
@@ -181,68 +163,49 @@ button.danger:hover { background: #f44; color: #000; }
 
 <header>
     <h1>
-        <span class="kim">404 · KIMIND</span>
+        <span class="reorg">◈ ORG-REORG</span>
         <span style="color:#666;">·</span>
-        <span class="core">CORE</span>
+        <span class="ufo">🛸 7 EBENEN</span>
         <span style="color:#666;">·</span>
-        <span class="live">ACHSEN-INTERPRETER</span>
+        <span style="color:var(--gold);">3-9-27-81-243-729-2268</span>
     </h1>
     <div id="info-bar">
         <span id="clock">⏱️ --:--:--</span>
         <span id="state-display" style="color:var(--gold);">● bereit</span>
-        <span id="cycle-display" style="color:#666;">φ 0</span>
+        <span id="cycle-display" style="color:#666;">REORG 0</span>
     </div>
 </header>
 
 <main>
     <div id="canvas-wrap">
-        <canvas id="kimCanvas"></canvas>
+        <canvas id="reorgCanvas"></canvas>
     </div>
 
     <div id="panel">
-        <h3>⚡ KIMIND · ACHSEN → RESPO</h3>
-
-        <!-- ACHSEN-INPUT -->
-        <div class="axis-input">
-            <div>
-                <label>X · BASE</label>
-                <input type="number" id="axis-x" value="0.5" step="0.01" min="0" max="1">
-            </div>
-            <div>
-                <label>Y · FLOW</label>
-                <input type="number" id="axis-y" value="0.5" step="0.01" min="0" max="1">
-            </div>
-            <div>
-                <label>Z · SHIFT</label>
-                <input type="number" id="axis-z" value="0.5" step="0.01" min="0" max="1">
-            </div>
-        </div>
+        <h3>📐 7 EBENEN · ORG-REORG</h3>
 
         <div id="metrics">
-            <div class="metric axis">
-                <div class="label">⟳ SYN</div>
-                <div class="value" id="syn-value">0.00</div>
-            </div>
-            <div class="metric axis">
-                <div class="label">⚛ QUANT</div>
-                <div class="value" id="quant-value">0.00</div>
-            </div>
-            <div class="metric respo">
-                <div class="label">◈ RESPO</div>
-                <div class="value" id="respo-value">0.00</div>
-            </div>
+            <div class="metric l1"><div class="label">3</div><div class="value" id="m3">0%</div></div>
+            <div class="metric l2"><div class="label">9</div><div class="value" id="m9">0%</div></div>
+            <div class="metric l3"><div class="label">27</div><div class="value" id="m27">0%</div></div>
+            <div class="metric l4"><div class="label">81</div><div class="value" id="m81">0%</div></div>
         </div>
 
         <div id="log">
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg ok">◈ KIMIND-CORE · ACHSEN-INTERPRETER geladen</span></div>
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg axis">AXIS: X/Y/Z → SYN/QUANT/RESPO</span></div>
-            <div class="entry"><span class="time">[INIT]</span> <span class="msg ok">✅ 87% Genauigkeit · 404-Router aktiv</span></div>
+            <div class="entry"><span class="time">[INIT]</span> <span class="msg ok">◈ ORG-REORG · 7 Ebenen</span></div>
+            <div class="entry"><span class="time">[INIT]</span> <span class="msg l1">3 · BASIS · ANKER</span></div>
+            <div class="entry"><span class="time">[INIT]</span> <span class="msg l2">9 · KERN · SYN/QUANT/RESPO</span></div>
+            <div class="entry"><span class="time">[INIT]</span> <span class="msg l3">27 · MODULE · FORMEN</span></div>
+            <div class="entry"><span class="time">[INIT]</span> <span class="msg l4">81 · ENGINE · NC</span></div>
+            <div class="entry"><span class="time">[INIT]</span> <span class="msg l5">243 · SYSTEM · HTML</span></div>
+            <div class="entry"><span class="time">[INIT]</span> <span class="msg l6">729 · START · SEEDS</span></div>
+            <div class="entry"><span class="time">[INIT]</span> <span class="msg l7">2268 · UFO · EVO</span></div>
         </div>
 
         <div id="controls">
-            <button class="primary" id="btn-interpret">▶ INTERPRETIEREN</button>
-            <button class="axis" id="btn-404">404 · ROUTER</button>
-            <button class="respo" id="btn-reset">⟲ RESET</button>
+            <button class="primary" id="btn-start">▶ START</button>
+            <button class="reorg" id="btn-reorg">⟳ REORG</button>
+            <button class="danger" id="btn-reset">⟲ RESET</button>
             <button id="btn-auto">▶ AUTO</button>
         </div>
     </div>
@@ -250,15 +213,28 @@ button.danger:hover { background: #f44; color: #000; }
 
 <script>
 // ============================================================
-// 1. KONSTANTEN — KIMIND-CORE
+// 1. ORG-REORG · 7 EBENEN · 3-9-27-81-243-729-2268
 // ============================================================
+
+// --- KONSTANTEN ---
 const PHI = 1.61803398875;
 const PHI_INV = 1 / PHI;
+
+// --- 7 EBENEN (deine Struktur) ---
+const LEVELS = [
+    { id: 'BASIS',    level: 3,   label: 'BASIS',   color: '#ff6b6b', files: ['ANKER.raw','BIL.json','REAL.json','README.md'] },
+    { id: 'KERN',     level: 9,   label: 'KERN',    color: '#6bff6b', files: ['syn.js','quant.js','respo.js','atom.js','anker.js','vector.js','opta.js','FLX_CORE.js','LAGE.js'] },
+    { id: 'MODULE',   level: 27,  label: 'MODULE',  color: '#6b6bff', files: ['FORM_CORE.js','FORM_ENGINE.js','FORM_MATRIX.js','QUANT_CORE.js','CONST_QUANT.js','CONTINIUM_KEY.js','TMP_MATRIX.js','RUNE.LIST.js','RUNE.RUN.js'] },
+    { id: 'ENGINE',   level: 81,  label: 'ENGINE',  color: '#ffd93d', files: ['NC.ARCHIEF','NC.system','RAW.DOMINO','EVO.CHECK','GEO.FIGURE','GEO.FIGURE.6','SEVEN.SENSES','ay.mode','ay.raw'] },
+    { id: 'SYSTEM',   level: 243, label: 'SYSTEM',  color: '#ff44ff', files: ['index.html','id.html','404.html','style.css','docs/'] },
+    { id: 'START',    level: 729, label: 'START',   color: '#6cf', files: ['start8/','6iy/','beu/','xyz/'] },
+    { id: 'UFO',      level: 2268,label: 'UFO',    color: '#ff8c00', files: ['ufo.js','UFO.540','UFO.evo','UFO.rotate'] }
+];
 
 // ============================================================
 // 2. CANVAS SETUP
 // ============================================================
-const canvas = document.getElementById('kimCanvas');
+const canvas = document.getElementById('reorgCanvas');
 const ctx = canvas.getContext('2d');
 let W, H, cx, cy, radius;
 
@@ -275,21 +251,26 @@ resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
 // ============================================================
-// 3. KIMIND-STATE
+// 3. STATE
 // ============================================================
 const state = {
-    x: 0.5,
-    y: 0.5,
-    z: 0.5,
-    syn: 0.5,
-    quant: 0.5,
-    respo: 0.5,
     running: false,
+    paused: false,
     autoMode: false,
     cycle: 0,
     t: 0,
-    mode: 'idle',
-    accuracy: 0.87
+
+    // 7 Ebenen-Werte
+    levels: LEVELS.map(() => 0.3),
+
+    // SYN/QUANT/RESPO
+    syn: 0.5,
+    quant: 0.5,
+    respo: 0.5,
+
+    // UFO
+    ufoRotation: 0,
+    evoValue: 0.5
 };
 
 // ============================================================
@@ -300,7 +281,9 @@ function log(msg, type = 'info') {
     const entry = document.createElement('div');
     entry.className = 'entry';
     const time = new Date().toLocaleTimeString();
-    const cls = type === 'ok' ? 'ok' : type === 'err' ? 'err' : type === 'axis' ? 'axis' : type === 'respo' ? 'respo' : '';
+    const cls = type === 'ok' ? 'ok' : type === 'l1' ? 'l1' : type === 'l2' ? 'l2' :
+                type === 'l3' ? 'l3' : type === 'l4' ? 'l4' : type === 'l5' ? 'l5' :
+                type === 'l6' ? 'l6' : type === 'l7' ? 'l7' : '';
     entry.innerHTML = `<span class="time">[${time}]</span> <span class="msg ${cls}">${msg}</span>`;
     logDiv.appendChild(entry);
     logDiv.scrollTop = logDiv.scrollHeight;
@@ -308,80 +291,52 @@ function log(msg, type = 'info') {
 }
 
 // ============================================================
-// 5. KIMIND-KERN — ACHSEN → RESPO
+// 5. REORG · KERN
 // ============================================================
 
-// Achsen interpretieren (X/Y/Z → SYN/QUANT/RESPO)
-function interpretAxes(x, y, z) {
-    // 87%-Genauigkeit: leichte Abweichung einbauen
-    const noise = (Math.random() - 0.5) * 0.13;
-
-    // SYN = X * 0.33 + Y * 0.33 + Z * 0.33 + Rauschen
-    const syn = Math.min(1, Math.max(0, (x * 0.33 + y * 0.33 + z * 0.33) + noise * 0.5));
-
-    // QUANT = Y * 0.5 + Z * 0.3 + Rauschen
-    const quant = Math.min(1, Math.max(0, (y * 0.5 + z * 0.3) + noise * 0.3));
-
-    // RESPO = (SYN + QUANT) / φ
-    const respo = Math.min(1, Math.max(0, (syn + quant) / PHI));
-
-    return { syn, quant, respo };
+// --- RESPO berechnen ---
+function computeRespo(syn, quant) {
+    return Math.min(1, (syn + quant) / PHI);
 }
 
-// 404-ROUTER — simuliert 404 und gibt Help-Output
-function router404() {
-    log('🔴 404 · Seite nicht gefunden', 'err');
-    log('🔍 KIMIND-CORE · ROOT-Rückführung eingeleitet', 'axis');
-    log('📊 ACHSEN: X/Y/Z → SYN/QUANT/RESPO (87% Genauigkeit)', 'respo');
-    log('🔄 ERROR-ROUTER aktiv — warte auf Eingabe', 'ok');
-
-    // Setze Achsen auf 404-Werte
-    document.getElementById('axis-x').value = 0.404;
-    document.getElementById('axis-y').value = 0.404;
-    document.getElementById('axis-z').value = 0.404;
-
-    // Interpretiere
-    interpretAndUpdate();
-
-    return {
-        status: "404 · KIMIND-CORE",
-        message: "ROOT-Rückführung eingeleitet",
-        accuracy: "87%",
-        axes: { x: 0.404, y: 0.404, z: 0.404 }
-    };
+// --- SYN/QUANT Dynamik (NC.ARCHIEF) ---
+function updateSynQuant(dt) {
+    const target = PHI_INV;
+    state.syn += (target - state.syn) * 0.02 + 0.003 * Math.sin(state.t * 0.3);
+    state.quant += (target - state.quant) * 0.02 + 0.003 * Math.cos(state.t * 0.2);
+    state.syn = Math.min(1, Math.max(0.05, state.syn));
+    state.quant = Math.min(1, Math.max(0.05, state.quant));
+    state.respo = computeRespo(state.syn, state.quant);
 }
 
-// ============================================================
-// 6. INTERPRETIEREN & UPDATE
-// ============================================================
-function interpretAndUpdate() {
-    const x = parseFloat(document.getElementById('axis-x').value) || 0;
-    const y = parseFloat(document.getElementById('axis-y').value) || 0;
-    const z = parseFloat(document.getElementById('axis-z').value) || 0;
+// --- REORG: Ebenen durchlaufen ---
+function reorg() {
+    const base = state.respo * 0.7 + 0.3;
+    state.levels = state.levels.map((_, i) => {
+        const phase = (i / state.levels.length) * Math.PI * 2 + state.t;
+        return Math.min(1, Math.max(0.1, base + 0.2 * Math.sin(phase)));
+    });
 
-    state.x = x;
-    state.y = y;
-    state.z = z;
-
-    const result = interpretAxes(x, y, z);
-    state.syn = result.syn;
-    state.quant = result.quant;
-    state.respo = result.respo;
+    // UFO-Rotation
+    state.ufoRotation += 0.01 * (1 + state.respo * 0.5);
+    state.evoValue = 0.3 + 0.7 * (0.5 + 0.5 * Math.sin(state.t * 0.5));
 
     // Metriken aktualisieren
-    document.getElementById('syn-value').textContent = state.syn.toFixed(3);
-    document.getElementById('quant-value').textContent = state.quant.toFixed(3);
-    document.getElementById('respo-value').textContent = state.respo.toFixed(3);
-
-    log(`⟳ X=${x.toFixed(2)} Y=${y.toFixed(2)} Z=${z.toFixed(2)} → SYN=${state.syn.toFixed(3)} QUANT=${state.quant.toFixed(3)} RESPO=${state.respo.toFixed(3)}`, 'axis');
-
-    return result;
+    document.getElementById('m3').textContent = (state.levels[0] * 100).toFixed(0) + '%';
+    document.getElementById('m9').textContent = (state.levels[1] * 100).toFixed(0) + '%';
+    document.getElementById('m27').textContent = (state.levels[2] * 100).toFixed(0) + '%';
+    document.getElementById('m81').textContent = (state.levels[3] * 100).toFixed(0) + '%';
 }
 
 // ============================================================
-// 7. RENDER — KIMIND-CORE
+// 6. RENDER — ORG-REORG · 7 EBENEN
 // ============================================================
 function render() {
+    if (state.paused) {
+        requestAnimationFrame(render);
+        return;
+    }
+
     ctx.clearRect(0, 0, W, H);
 
     // Hintergrund
@@ -391,33 +346,31 @@ function render() {
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, W, H);
 
-    // 404-ROOT-Kreis
-    drawRoot();
+    // 1. 7 Ebenen (3-9-27-81-243-729-2268)
+    drawLevels();
 
-    // Achsen-Dreieck (X/Y/Z)
-    drawAxisTriangle();
+    // 2. UFO · 540°
+    drawUFO();
 
-    // RESPO-Kern
+    // 3. RESPO-Kern
     drawRespo();
 
-    // SYN/QUANT-Punkte
+    // 4. SYN/QUANT
     drawSynQuant();
 
-    // Status
-    drawStatus();
+    // 5. ORG-REORG-Status
+    drawReorgStatus();
 
+    // Update
     state.t += 0.008;
-    if (state.running && state.cycle % 30 === 0) {
-        // Automatische Interpretation
-        if (state.autoMode) {
-            const x = Math.sin(state.t * 0.3) * 0.5 + 0.5;
-            const y = Math.cos(state.t * 0.25) * 0.5 + 0.5;
-            const z = Math.sin(state.t * 0.4 + 1) * 0.5 + 0.5;
-            document.getElementById('axis-x').value = x;
-            document.getElementById('axis-y').value = y;
-            document.getElementById('axis-z').value = z;
-            interpretAndUpdate();
-        }
+    if (state.running) {
+        state.cycle++;
+        updateSynQuant(0.016);
+        reorg();
+    }
+
+    if (state.cycle % 15 === 0) {
+        document.getElementById('cycle-display').textContent = `REORG ${state.cycle}`;
     }
 
     requestAnimationFrame(render);
@@ -425,116 +378,100 @@ function render() {
 render();
 
 // ============================================================
-// 8. ZEICHEN-FUNKTIONEN
+// 7. ZEICHEN-FUNKTIONEN
 // ============================================================
 
-function drawRoot() {
-    // 404-ROOT-Kreis
-    const r = radius * 0.7;
-    ctx.strokeStyle = 'rgba(255, 68, 68, 0.05)';
-    ctx.lineWidth = 0.5;
-    ctx.setLineDash([4, 8]);
-    ctx.beginPath();
-    ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.setLineDash([]);
+function drawLevels() {
+    const n = state.levels.length;
+    const baseR = radius * 0.35;
 
-    // 404 Text
-    ctx.fillStyle = 'rgba(255, 68, 68, 0.06)';
-    ctx.font = '48px Consolas';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('404', cx, cy - 20);
+    for (let i = 0; i < n; i++) {
+        const val = state.levels[i] || 0.3;
+        const level = LEVELS[i];
+        const angle = (i / n) * Math.PI * 2 + state.t * 0.05;
+        const r = baseR * (0.3 + val * 0.7);
+        const x = cx + Math.cos(angle) * r;
+        const y = cy + Math.sin(angle) * r;
 
-    ctx.fillStyle = 'rgba(255, 68, 68, 0.04)';
-    ctx.font = '12px Consolas';
-    ctx.fillText('KIMIND-CORE · ROOT', cx, cy + 30);
+        // Kreis
+        const color = level.color;
+        ctx.strokeStyle = `${color}${Math.floor(0.2 + val * 0.5) * 255}`;
+        ctx.lineWidth = 1 + val * 2;
+        ctx.beginPath();
+        ctx.arc(x, y, 8 + val * 14, 0, Math.PI * 2);
+        ctx.stroke();
 
-    // Genauigkeit
-    ctx.fillStyle = 'rgba(255, 215, 61, 0.15)';
-    ctx.font = '9px Consolas';
-    ctx.fillText(`87% Genauigkeit`, cx, cy + 50);
+        // Füllung
+        ctx.fillStyle = `${color}${Math.floor(0.1 + val * 0.3) * 255}`;
+        ctx.shadowColor = color;
+        ctx.shadowBlur = 5 + val * 10;
+        ctx.beginPath();
+        ctx.arc(x, y, 4 + val * 8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Label
+        ctx.fillStyle = '#666';
+        ctx.font = '5px Consolas';
+        ctx.textAlign = 'center';
+        ctx.fillText(`${level.level}`, x, y + 18);
+        ctx.fillStyle = '#444';
+        ctx.font = '4px Consolas';
+        ctx.fillText(`${level.id}`, x, y + 26);
+
+        // Verbindungslinie
+        ctx.strokeStyle = `${color}22`;
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+
+        // File-Count
+        ctx.fillStyle = '#333';
+        ctx.font = '3px Consolas';
+        ctx.fillText(`${level.files.length} files`, x, y + 34);
+    }
 }
 
-function drawAxisTriangle() {
-    const x = state.x;
-    const y = state.y;
-    const z = state.z;
-    const r = radius * 0.4;
+function drawUFO() {
+    const rot = state.ufoRotation;
+    const pulse = state.evoValue;
+    const r = radius * 0.25;
 
-    // X-Achse (rot)
-    const ax = cx + x * r * 0.9;
-    const ay = cy - x * r * 0.2;
-    ctx.strokeStyle = 'rgba(255, 107, 107, 0.3)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(ax, ay);
-    ctx.stroke();
-    ctx.fillStyle = 'rgba(255, 107, 107, 0.5)';
-    ctx.font = '8px Consolas';
+    for (let i = 0; i < 8; i++) {
+        const a = (i / 8) * Math.PI * 2 + rot * 0.5;
+        const dist = r * (0.6 + pulse * 0.3);
+        const px = cx + Math.cos(a) * dist;
+        const py = cy + Math.sin(a) * dist;
+        const size = 2 + pulse * 2;
+
+        ctx.fillStyle = `rgba(255, 215, 61, ${0.2 + pulse * 0.3})`;
+        ctx.shadowColor = '#ff44ff';
+        ctx.shadowBlur = 4 + pulse * 6;
+        ctx.beginPath();
+        ctx.arc(px, py, size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+    }
+
+    ctx.fillStyle = `rgba(255, 215, 61, ${0.2 + pulse * 0.3})`;
+    ctx.font = '12px Consolas';
     ctx.textAlign = 'center';
-    ctx.fillText('X', ax, ay - 12);
-
-    // Y-Achse (grün)
-    const bx = cx + y * r * 0.2;
-    const by = cy + y * r * 0.9;
-    ctx.strokeStyle = 'rgba(107, 255, 107, 0.3)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(bx, by);
-    ctx.stroke();
-    ctx.fillStyle = 'rgba(107, 255, 107, 0.5)';
-    ctx.fillText('Y', bx - 12, by);
-
-    // Z-Achse (blau)
-    const czx = cx + z * r * 0.6;
-    const czy = cy - z * r * 0.5;
-    ctx.strokeStyle = 'rgba(107, 107, 255, 0.3)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(czx, czy);
-    ctx.stroke();
-    ctx.fillStyle = 'rgba(107, 107, 255, 0.5)';
-    ctx.fillText('Z', czx + 12, czy - 8);
-
-    // Achsen-Punkte
-    ctx.fillStyle = 'rgba(255, 107, 107, 0.4)';
-    ctx.beginPath();
-    ctx.arc(ax, ay, 4, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = 'rgba(107, 255, 107, 0.4)';
-    ctx.beginPath();
-    ctx.arc(bx, by, 4, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = 'rgba(107, 107, 255, 0.4)';
-    ctx.beginPath();
-    ctx.arc(czx, czy, 4, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Werte
-    ctx.fillStyle = 'rgba(255,255,255,0.08)';
-    ctx.font = '6px Consolas';
-    ctx.fillText(`${x.toFixed(2)}`, ax, ay + 18);
-    ctx.fillText(`${y.toFixed(2)}`, bx + 14, by + 4);
-    ctx.fillText(`${z.toFixed(2)}`, czx + 12, czy + 16);
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🛸', cx, cy + 14);
 }
 
 function drawRespo() {
     const val = state.respo;
-    const coreRadius = 4 + val * 20;
+    const coreRadius = 3 + val * 14;
 
-    const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreRadius + 18);
+    const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, coreRadius + 14);
     glow.addColorStop(0, `rgba(108, 204, 255, ${0.15 + val * 0.3})`);
-    glow.addColorStop(0.5, `rgba(108, 204, 255, ${0.08 + val * 0.15})`);
     glow.addColorStop(1, 'rgba(108, 204, 255, 0)');
     ctx.fillStyle = glow;
     ctx.beginPath();
-    ctx.arc(cx, cy, coreRadius + 18, 0, Math.PI * 2);
+    ctx.arc(cx, cy, coreRadius + 14, 0, Math.PI * 2);
     ctx.fill();
 
     const coreGrad = ctx.createRadialGradient(cx - 2, cy - 2, 0, cx, cy, coreRadius);
@@ -543,147 +480,148 @@ function drawRespo() {
     coreGrad.addColorStop(1, `rgba(40, 120, 180, ${0.2 + val * 0.2})`);
     ctx.fillStyle = coreGrad;
     ctx.shadowColor = '#6cf';
-    ctx.shadowBlur = 10 + val * 20;
+    ctx.shadowBlur = 8 + val * 16;
     ctx.beginPath();
     ctx.arc(cx, cy, coreRadius, 0, Math.PI * 2);
     ctx.fill();
     ctx.shadowBlur = 0;
 
     ctx.fillStyle = '#000';
-    ctx.font = `bold ${5 + val * 6}px Consolas`;
+    ctx.font = `bold ${4 + val * 5}px Consolas`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('◈', cx, cy);
 
     ctx.fillStyle = `rgba(255, 255, 255, ${0.15 + val * 0.3})`;
-    ctx.font = '6px Consolas';
+    ctx.font = '5px Consolas';
     ctx.textBaseline = 'top';
-    ctx.fillText(`φ = ${state.respo.toFixed(3)}`, cx, cy + coreRadius + 6);
+    ctx.fillText(`φ = ${state.respo.toFixed(3)}`, cx, cy + coreRadius + 4);
 }
 
 function drawSynQuant() {
     const syn = state.syn;
     const quant = state.quant;
-    const r = radius * 0.15;
+    const r = radius * 0.08;
 
-    // SYN (rot)
-    const sa = syn * Math.PI * 2 + state.t * 0.2;
-    const sx = cx - r * 0.6 + Math.cos(sa) * r * 0.35;
-    const sy = cy + Math.sin(sa) * r * 0.35;
-
+    const sx = cx - r * 0.6;
+    const sy = cy + r * 0.2;
     ctx.fillStyle = `rgba(255, 107, 107, ${0.2 + syn * 0.4})`;
     ctx.shadowColor = '#ff6b6b';
-    ctx.shadowBlur = 4 + syn * 8;
+    ctx.shadowBlur = 3 + syn * 6;
     ctx.beginPath();
     ctx.arc(sx, sy, 2 + syn * 4, 0, Math.PI * 2);
     ctx.fill();
     ctx.shadowBlur = 0;
     ctx.fillStyle = `rgba(255, 107, 107, ${0.2 + syn * 0.3})`;
-    ctx.font = '5px Consolas';
+    ctx.font = '4px Consolas';
     ctx.textAlign = 'center';
-    ctx.fillText(`SYN ${(syn * 100).toFixed(0)}%`, sx, sy - 10);
+    ctx.fillText(`SYN ${(syn * 100).toFixed(0)}%`, sx, sy - 8);
 
-    // QUANT (blau)
-    const qa = quant * Math.PI * 2 + state.t * 0.3;
-    const qx = cx + r * 0.6 + Math.cos(qa) * r * 0.35;
-    const qy = cy + Math.sin(qa) * r * 0.35;
-
+    const qx = cx + r * 0.6;
+    const qy = cy + r * 0.2;
     ctx.fillStyle = `rgba(107, 107, 255, ${0.2 + quant * 0.4})`;
     ctx.shadowColor = '#6b6bff';
-    ctx.shadowBlur = 4 + quant * 8;
+    ctx.shadowBlur = 3 + quant * 6;
     ctx.beginPath();
     ctx.arc(qx, qy, 2 + quant * 4, 0, Math.PI * 2);
     ctx.fill();
     ctx.shadowBlur = 0;
     ctx.fillStyle = `rgba(107, 107, 255, ${0.2 + quant * 0.3})`;
-    ctx.fillText(`QUANT ${(quant * 100).toFixed(0)}%`, qx, qy - 10);
+    ctx.fillText(`QUANT ${(quant * 100).toFixed(0)}%`, qx, qy - 8);
+
+    const target = PHI_INV;
+    const ta = target * Math.PI * 2;
+    const tx = cx + Math.cos(ta) * r * 1.2;
+    const ty = cy + Math.sin(ta) * r * 1.2;
+    ctx.strokeStyle = 'rgba(255, 215, 61, 0.08)';
+    ctx.lineWidth = 0.5;
+    ctx.setLineDash([1, 2]);
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.lineTo(tx, ty);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(255, 215, 61, 0.15)';
+    ctx.font = '4px Consolas';
+    ctx.fillText(`φ⁻¹`, tx, ty - 6);
 }
 
-function drawStatus() {
-    const mode = state.mode;
-    const colors = {
-        idle: '#666',
-        running: '#4f4',
-        error: '#f44',
-        routing: '#ff4'
-    };
+function drawReorgStatus() {
+    const colors = ['#ff6b6b', '#6bff6b', '#6b6bff', '#ffd93d', '#ff44ff', '#6cf', '#ff8c00'];
+    const labels = ['3', '9', '27', '81', '243', '729', '2268'];
 
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
-    ctx.fillRect(8, 8, 100, 16);
+    ctx.fillStyle = 'rgba(255,255,255,0.02)';
+    ctx.fillRect(W - 130, 8, 120, 28);
 
-    ctx.fillStyle = colors[mode] || '#666';
-    ctx.font = '6px Consolas';
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'top';
-    ctx.fillText(`KIMIND: ${mode.toUpperCase()}`, 12, 10);
-
-    // 404-ROUTER aktiv
-    ctx.fillStyle = 'rgba(255, 68, 68, 0.05)';
-    ctx.fillRect(8, 28, 60, 6);
-    ctx.fillStyle = 'rgba(255, 68, 68, 0.3)';
-    ctx.fillRect(8, 28, 60 * 0.87, 6);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
-    ctx.font = '5px Consolas';
-    ctx.fillText('87%', 72, 29);
+    for (let i = 0; i < Math.min(7, state.levels.length); i++) {
+        const x = W - 126 + i * 16;
+        const val = state.levels[i] || 0.3;
+        ctx.fillStyle = colors[i] + '33';
+        ctx.fillRect(x, 12, 12, 12);
+        ctx.fillStyle = colors[i];
+        ctx.fillRect(x, 12 + (1 - val) * 12, 12, val * 12);
+        ctx.fillStyle = '#444';
+        ctx.font = '4px Consolas';
+        ctx.textAlign = 'center';
+        ctx.fillText(labels[i], x + 6, 28);
+    }
 }
 
 // ============================================================
-// 9. CONTROLS
+// 8. CONTROLS
 // ============================================================
-document.getElementById('btn-interpret').addEventListener('click', function() {
-    state.mode = 'running';
-    interpretAndUpdate();
-    log('▶ INTERPRETATION durchgeführt', 'ok');
-    document.getElementById('state-display').textContent = '● interpretiert';
-    document.getElementById('state-display').style.color = 'var(--gold)';
+document.getElementById('btn-start').addEventListener('click', function() {
+    state.running = !state.running;
+    this.textContent = state.running ? '⏸ STOP' : '▶ START';
+    document.getElementById('state-display').textContent = state.running ? '● läuft' : '● gestoppt';
+    document.getElementById('state-display').style.color = state.running ? 'var(--gold)' : '#666';
+    log(state.running ? '▶ ORG-REORG gestartet' : '⏸ ORG-REORG gestoppt', 'ok');
 });
 
-document.getElementById('btn-404').addEventListener('click', function() {
-    state.mode = 'routing';
-    router404();
-    document.getElementById('state-display').textContent = '● 404-Router';
-    document.getElementById('state-display').style.color = '#ff4';
+document.getElementById('btn-reorg').addEventListener('click', function() {
+    reorg();
+    log(`⟳ REORG · RESPO=${state.respo.toFixed(3)}`, 'l4');
 });
 
 document.getElementById('btn-reset').addEventListener('click', function() {
-    state.mode = 'idle';
+    state.running = false;
+    state.paused = false;
     state.cycle = 0;
     state.t = 0;
-    state.x = 0.5;
-    state.y = 0.5;
-    state.z = 0.5;
     state.syn = 0.5;
     state.quant = 0.5;
     state.respo = 0.5;
-    document.getElementById('axis-x').value = 0.5;
-    document.getElementById('axis-y').value = 0.5;
-    document.getElementById('axis-z').value = 0.5;
-    document.getElementById('syn-value').textContent = '0.500';
-    document.getElementById('quant-value').textContent = '0.500';
-    document.getElementById('respo-value').textContent = '0.500';
+    state.ufoRotation = 0;
+    state.evoValue = 0.5;
+    state.levels = state.levels.map(() => 0.3);
+    document.getElementById('btn-start').textContent = '▶ START';
     document.getElementById('state-display').textContent = '● reset';
     document.getElementById('state-display').style.color = '#f44';
-    document.getElementById('cycle-display').textContent = 'φ 0';
-    log('⟲ RESET — KIMIND-CORE zurückgesetzt', 'ok');
+    document.getElementById('cycle-display').textContent = 'REORG 0';
+    document.getElementById('m3').textContent = '30%';
+    document.getElementById('m9').textContent = '30%';
+    document.getElementById('m27').textContent = '30%';
+    document.getElementById('m81').textContent = '30%';
+    log('⟲ RESET — ORG-REORG zurückgesetzt', 'ok');
 });
 
 document.getElementById('btn-auto').addEventListener('click', function() {
     state.autoMode = !state.autoMode;
     this.textContent = state.autoMode ? '⏸ PAUSE' : '▶ AUTO';
     if (state.autoMode) {
-        state.mode = 'running';
-        log('▶ AUTO · KIMIND atmet', 'ok');
+        log('▶ AUTO · ORG-REORG atmet', 'ok');
+        state.running = true;
+        document.getElementById('btn-start').textContent = '⏸ STOP';
         document.getElementById('state-display').textContent = '● auto';
         document.getElementById('state-display').style.color = 'var(--gold)';
         if (window.autoInterval) clearInterval(window.autoInterval);
         window.autoInterval = setInterval(function() {
             state.cycle++;
-            document.getElementById('cycle-display').textContent = `φ ${(state.respo * 100).toFixed(0)}%`;
-            log(`🔄 Zyklus ${state.cycle}: RESPO=${state.respo.toFixed(3)}`, 'respo');
+            document.getElementById('cycle-display').textContent = `REORG ${state.cycle}`;
+            log(`🔄 Zyklus ${state.cycle}: RESPO=${state.respo.toFixed(3)}`, 'ok');
         }, 3000);
     } else {
         clearInterval(window.autoInterval);
-        state.mode = 'idle';
         log('⏸ AUTO pausiert', 'ok');
         document.getElementById('state-display').textContent = '● pausiert';
         document.getElementById('state-display').style.color = '#ff4';
@@ -691,17 +629,17 @@ document.getElementById('btn-auto').addEventListener('click', function() {
 });
 
 // ============================================================
-// 10. TASTATUR
+// 9. TASTATUR
 // ============================================================
 document.addEventListener('keydown', function(e) {
-    if (e.key === ' ') { e.preventDefault(); document.getElementById('btn-interpret').click(); }
-    if (e.key === '4' || e.key === '4') document.getElementById('btn-404').click();
+    if (e.key === ' ') { e.preventDefault(); document.getElementById('btn-start').click(); }
+    if (e.key === 'r' || e.key === 'R') document.getElementById('btn-reorg').click();
     if (e.key === 'x' || e.key === 'X') document.getElementById('btn-reset').click();
     if (e.key === 'a' || e.key === 'A') document.getElementById('btn-auto').click();
 });
 
 // ============================================================
-// 11. UHR
+// 10. UHR
 // ============================================================
 function updateClock() {
     document.getElementById('clock').textContent = '⏱️ ' + new Date().toLocaleTimeString();
@@ -710,23 +648,22 @@ setInterval(updateClock, 1000);
 updateClock();
 
 // ============================================================
-// 12. INIT
+// 11. INIT — ORG-REORG
 // ============================================================
-log('◈ KIMIND-CORE · ACHSEN-INTERPRETER geladen', 'ok');
-log('AXIS: X/Y/Z → SYN/QUANT/RESPO (87% Genauigkeit)', 'axis');
-log('⌨️  space=Interpret 4=404-Router x=Reset a=Auto', 'ok');
+log('◈ ORG-REORG · 7 EBENEN · 3-9-27-81-243-729-2268', 'ok');
+log('⌨️  space=Start  r=Reorg  x=Reset  a=Auto', 'ok');
 
-console.log('◈ KIMIND-CORE · ACHSEN-INTERPRETER');
-console.log('AXIS: X/Y/Z → SYN/QUANT/RESPO');
-console.log('87% Genauigkeit · 404-Router aktiv');
-console.log('⌨️  space=Interpret 4=404-Router x=Reset a=Auto');
+console.log('◈ ORG-REORG · 7 EBENEN · 3-9-27-81-243-729-2268');
+console.log('⌨️  space=Start  r=Reorg  x=Reset  a=Auto');
 
-// Initial interpretieren
+// Initiale REORG
 setTimeout(function() {
-    interpretAndUpdate();
-    state.mode = 'idle';
-    document.getElementById('state-display').textContent = '● bereit';
-    log('▶ KIMIND-CORE bereit', 'ok');
+    state.running = true;
+    document.getElementById('btn-start').textContent = '⏸ STOP';
+    document.getElementById('state-display').textContent = '● läuft';
+    document.getElementById('state-display').style.color = 'var(--gold)';
+    log('▶ ORG-REORG automatisch gestartet', 'ok');
+    reorg();
 }, 300);
 </script>
 </body>
